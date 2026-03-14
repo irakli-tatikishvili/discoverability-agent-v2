@@ -1,0 +1,88 @@
+# Backlinks Overview Page Definition
+id: backlinks-overview
+name: Backlinks Overview
+path: /backlinks/overview
+category: backlinks-analysis
+featureLocation: Web Intelligence > Backlinks Analytics > Overview
+pageType: dashboard
+
+description: |
+  Analyze the backlink profile of any website. Understand the quantity and quality of backlinks, 
+  referring domains, and link building strategies of your competitors.
+
+valueProposition:
+  - Understand competitor link building strategies
+  - Identify high-quality backlink opportunities
+  - Track backlink growth over time
+  - Analyze referring domain authority
+  - Find link building gaps vs competitors
+
+useCases:
+  - SEO competitor analysis
+  - Link building strategy development
+  - Identify link opportunities
+  - Track backlink profile changes
+  - Audit referring domains
+
+sections:
+  - id: backlinks-summary
+    title: Backlinks Summary
+    description: Overview of backlink metrics
+    metrics:
+      - Total Backlinks
+      - Referring Domains
+      - Domain Authority
+      - New vs Lost Links
+
+  - id: referring-domains
+    title: Referring Domains
+    description: List of domains linking to the site
+    metrics:
+      - Domain
+      - Domain Authority
+      - Backlinks Count
+      - First Seen
+      - Last Seen
+
+  - id: backlinks-trend
+    title: Backlinks Over Time
+    description: Track backlink growth trends
+    chartType: line
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: linkType
+    label: Link Type
+    type: select
+    options:
+      - All
+      - Follow
+      - NoFollow
+
+actions:
+  - Compare with competitors
+  - Filter by link type
+  - Export backlinks list
+  - View referring domains
+
+relatedPages:
+  - id: referring-domains
+    relationship: deeper-analysis
+    description: Detailed referring domain analysis
+  - id: search-overview
+    relationship: complementary
+    description: Search performance overview
+
+requiredClaims:
+  - backlinks_analysis
+
+keywords:
+  - backlinks
+  - referring domains
+  - link building
+  - SEO backlinks
+  - domain authority
+  - link profile

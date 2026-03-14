@@ -1,0 +1,26 @@
+# Goal-to-Offering: maps quiz primaryFocus + subFocuses to suggested page IDs.
+# Used when LLM returns empty suggestedPages (fallback only).
+# Mirrors the Goal-to-Offering mapping in the system prompt.
+
+primaryFocus:
+  analyze-competitors-market:
+    default: [traffic-engagement, website-performance, marketing-channels]
+    subFocuses:
+      traffic-sources: [traffic-engagement, marketing-channels, incoming-traffic]
+      market-share-shifts: [market-overview, market-players, website-rankings]
+      benchmark-industry: [traffic-engagement, website-performance, marketing-channels, similar-sites]
+      understand-audience: [demographics, audience-interests, geography]
+      consumer-trends: [market-overview, demand-analysis, keyword-generator]
+
+  improve-seo-ppc:
+    default: [search-overview, keyword-generator, backlinks-overview]
+    subFocuses:
+      keyword-research-gap: [keyword-generator, search-overview]
+      track-search-position: [rank-tracker, search-overview]
+      technical-seo-audit: [website-content, backlinks-overview]
+      backlink-research: [backlinks-overview, incoming-traffic]
+      competitor-ads: [ad-intelligence, marketing-channels]
+      genai-visibility-traffic: [gen-ai-intelligence]
+
+  genai-visibility:
+    default: [gen-ai-intelligence, search-overview, website-content]

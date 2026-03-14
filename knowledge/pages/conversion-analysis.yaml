@@ -1,0 +1,79 @@
+# Conversion Analysis Page Definition
+id: conversion-analysis
+name: Conversion Analysis
+path: /conversion-analysis
+category: conversion-analysis
+featureLocation: Web Intelligence > Conversion Analysis
+pageType: analysis
+
+description: |
+  Analyze conversion funnels and understand how effectively websites convert traffic. 
+  Measure conversion rates and identify opportunities to optimize the customer journey.
+
+valueProposition:
+  - Understand how effectively competitors monetize traffic
+  - Analyze conversion funnels and drop-off points
+  - Benchmark conversion performance against industry
+  - Identify opportunities to improve conversion rates
+  - Track conversion trends over time
+
+useCases:
+  - Benchmark conversion rates against competitors
+  - Identify funnel optimization opportunities
+  - Understand customer journey effectiveness
+  - Analyze conversion by traffic source
+  - Track conversion performance trends
+
+sections:
+  - id: conversion-overview
+    title: Conversion Overview
+    description: Overall conversion metrics and performance
+
+  - id: funnel-analysis
+    title: Funnel Analysis
+    description: Step-by-step conversion funnel performance
+    metrics:
+      - Funnel Steps
+      - Drop-off Rates
+      - Conversion Rates per Step
+
+  - id: conversion-by-channel
+    title: Conversion by Channel
+    description: Conversion performance by traffic source
+    metrics:
+      - Channel
+      - Traffic Volume
+      - Conversion Rate
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Country
+    type: select
+
+actions:
+  - Analyze conversion funnel
+  - Compare with competitors
+  - Export data
+
+relatedPages:
+  - id: website-segments
+    relationship: workflow
+    description: Create segments for conversion analysis
+  - id: marketing-channels
+    relationship: complementary
+    description: Understand traffic sources
+
+requiredClaims:
+  - conversion_analysis
+
+keywords:
+  - conversion analysis
+  - conversion rate
+  - funnel analysis
+  - customer journey
+  - monetization
+  - conversion optimization

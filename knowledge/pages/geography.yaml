@@ -1,0 +1,124 @@
+# Geography Page Definition
+id: geography
+name: Geography
+path: /website/{domain}/audience/geography
+category: audience-analysis
+featureLocation: Website Research > Website Analysis > Audience > Geography
+pageType: analysis
+
+description: |
+  View traffic to a site per country. Identify the leading countries sending traffic to your competitors, 
+  and adapt your competitive strategy in each market.
+
+valueProposition:
+  - See traffic distribution by country for your site and competitors
+  - Identify leading countries sending traffic to competitors
+  - Adapt competitive strategy per market
+  - Find new markets to target for growth
+  - Understand where competitors are winning geographically
+
+useCases:
+  - Geographic market analysis
+  - International expansion planning
+  - Regional competitive benchmarking
+  - Identify growth opportunities by country
+  - Understand global footprint
+
+sections:
+  - id: world-map
+    title: World Map
+    description: Interactive map showing traffic distribution by country
+    chartType: map
+
+  - id: country-list
+    title: Country Traffic List
+    description: Countries sending traffic ranked by traffic share
+    metrics:
+      - Traffic Share
+      - Competitive Traffic Share
+      - Country Rank
+      - Visit Duration
+      - Pages per Visit
+      - Bounce Rate
+      - Month-over-Month Change
+
+metrics:
+  - id: traffic-share
+    name: Traffic Share
+    description: Percent of traffic sent from each country to all selected websites
+    dataType: percentage
+
+  - id: competitive-traffic-share
+    name: Competitive Traffic Share
+    description: Percent of traffic sent to each website from specified countries
+    dataType: percentage
+
+  - id: country-rank
+    name: Country Rank
+    description: Website ranking in the primary website's top country
+    dataType: rank
+
+  - id: visit-duration
+    name: Visit Duration
+    description: Average duration of visits from each country
+    dataType: duration
+
+  - id: pages-per-visit
+    name: Pages per Visit
+    description: Average pages viewed per visit from each country
+    dataType: number
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: webSource
+    label: Traffic Type
+    type: select
+    options:
+      - label: Desktop
+        value: desktop
+      - label: Mobile Web
+        value: mobile
+      - label: All Traffic
+        value: total
+
+  - id: includeCountryDomains
+    label: Include All Country Domains
+    type: toggle
+    description: Aggregate country domains (e.g., samsung.de, samsung.nl) into single view
+
+actions:
+  - Compare up to 4 competitors
+  - Toggle country domain aggregation
+  - Export data
+  - Hover for detailed stats
+
+tips:
+  - Run this report two ways - analyzing just your site, then comparing with competitors
+  - The single-site report shows where your brand is strongest and where it can grow
+  - The benchmarking report highlights where competitors are winning
+  - Toggle "Include all country domains" to see accurate representation of global brands
+
+relatedPages:
+  - id: website-performance
+    relationship: overview
+    description: Overview of website performance
+  - id: demographics
+    relationship: complementary
+    description: Audience demographic data
+  - id: marketing-channels
+    relationship: complementary
+    description: Traffic source analysis
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - geography
+  - traffic by country
+  - international traffic
+  - regional analysis
+  - global traffic
+  - country rank

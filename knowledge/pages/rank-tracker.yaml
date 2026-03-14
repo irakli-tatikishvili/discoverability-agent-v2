@@ -1,0 +1,178 @@
+# Rank Tracker Page Definition
+id: rank-tracker
+name: Rank Tracker
+path: /rank-tracker/home
+category: search-tracking
+featureLocation: Search Intelligence > Search Tracking > Rank Tracker
+pageType: tool
+
+description: |
+  Monitor your organic ranking position on a daily basis. Get visibility into rankings, 
+  easily sort by keywords that have gained or dropped in SERP rankings, and dive deeper 
+  with tag and page reports.
+
+valueProposition:
+  - Spot trends, opportunities, and rank gains/drops
+  - Know when to adjust your SEO or content strategy
+  - Monitor daily fluctuations in rank and SERP landscape
+  - Track keywords critical to your business
+  - Get actionable, fresh, always-on data
+
+useCases:
+  - Find new content ideas from competitor rankings
+  - Avoid keyword cannibalization
+  - Understand SERP features per keyword
+  - Monitor competitor rankings daily
+  - Track rank trends and changes over time
+
+sections:
+  - id: campaign-setup
+    title: Campaign Setup
+    description: Create rank tracking campaigns
+    steps:
+      - Enter website URL and campaign name
+      - Add Google Business, YouTube, TikTok, or X accounts
+      - Add up to 5 competitors
+      - Define search engine, device, and geo
+      - Add keywords (manual, CSV, or existing lists)
+
+  - id: summary
+    title: Summary
+    description: Overall ranking performance metrics
+    metrics:
+      - Weighted Average Position
+      - Visibility
+      - Clicks
+
+  - id: keywords-report
+    title: Keywords Report
+    description: Performance of all tracked keywords
+    metrics:
+      - Organic Position
+      - Monthly Search Volume
+      - SERP Features
+      - Search Intent
+      - Keyword Difficulty
+      - CPC
+      - AI Overviews
+
+  - id: serp-features
+    title: SERP Features
+    description: Holistic view of page 1 SERP composition
+    
+  - id: competitors-report
+    title: Competitors Report
+    description: Competitor performance analysis
+    metrics:
+      - Gains
+      - Losses
+      - Overall Position
+      - Strategy Insights
+
+  - id: pages-report
+    title: Pages Report
+    description: Rankings at URL level
+    metrics:
+      - Page URL
+      - Keywords Ranking
+      - Position
+
+  - id: tags-report
+    title: Tags Report
+    description: Rankings of tagged keyword groups
+
+metrics:
+  - id: weighted-avg-position
+    name: Weighted Average Position
+    description: Average ranking position weighted by search volume
+    dataType: number
+
+  - id: visibility
+    name: Visibility
+    description: Percentage of site visibility on SERP weighted by search volume (top 3 pages)
+    dataType: percentage
+
+  - id: clicks
+    name: Clicks
+    description: Estimated clicks resulting from keyword set
+    dataType: number
+
+  - id: organic-position
+    name: Organic Position
+    description: Organic rank of keyword on Google's SERP
+    dataType: rank
+
+  - id: ai-overviews
+    name: AI Overviews
+    description: Google's AI-generated summaries appearing at top of search results
+    dataType: boolean
+
+filters:
+  - id: searchEngine
+    label: Search Engine
+    type: select
+    options: [Google, Bing, Yahoo]
+
+  - id: device
+    label: Device
+    type: select
+    options: [Desktop, Mobile]
+
+  - id: location
+    label: Location
+    type: select
+
+  - id: language
+    label: Language
+    type: select
+
+  - id: position
+    label: Position Filter
+    type: range
+
+  - id: gainsDrop
+    label: Gains/Drops
+    type: select
+
+actions:
+  - Create new campaign
+  - Add keywords
+  - Add competitors
+  - Filter by position
+  - Export data
+  - Use advanced filters
+
+tips:
+  - Results take at least 24 hours to generate after campaign setup
+  - Use tags to organize keywords into meaningful groups
+  - Monitor competitors to understand their SEO strategy
+  - Check SERP Features to understand the search landscape
+
+faqs:
+  - question: Can I track mobile and desktop?
+    answer: Yes, you can track both desktop and mobile within a campaign using the three variables available.
+  - question: How many keywords can I track per campaign?
+    answer: No limit per campaign, but your subscription may have overall keyword limits. Contact your account manager to check.
+  - question: Is Rank Tracker available on the API?
+    answer: Yes, once you have a campaign set up. Visit the Developer Hub for API endpoints.
+
+relatedPages:
+  - id: search-overview
+    relationship: complementary
+    description: Overall search performance
+  - id: keyword-generator
+    relationship: workflow
+    description: Find keywords to track
+
+requiredClaims:
+  - rank_tracker
+  - search_tracking
+
+keywords:
+  - rank tracker
+  - SERP ranking
+  - keyword ranking
+  - organic position
+  - rank monitoring
+  - SEO tracking
+  - position tracking

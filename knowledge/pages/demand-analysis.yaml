@@ -1,0 +1,143 @@
+# Demand Analysis Page Definition
+id: demand-analysis
+name: Demand Analysis
+path: /market-research/demand-analysis
+category: keyword-research
+featureLocation: Web Intelligence > Market Research > Demand Analysis
+pageType: analysis
+
+description: |
+  Track and understand consumer trends using granular search data to capture real intent signals. 
+  Uncover the size, growth, and patterns of both macro (industry-level) and micro (niche) trends.
+
+valueProposition:
+  - Adapt quickly as trends evolve to stay ahead of competitors
+  - Prioritize actions for product launches, repackaging, or marketing
+  - Measure and compare trend size and growth
+  - Spot new opportunities early before they peak
+  - Understand what's driving consumer demand
+
+useCases:
+  - Market size and growth analysis
+  - Trend identification and tracking
+  - Understanding trend drivers and spikes
+  - Product and messaging decisions
+  - Seasonal demand forecasting
+
+userPersonas:
+  - Insights, Research & Strategy Teams
+  - Strategy, Product Development, and Merchandise Teams
+  - Strategic SEO Teams
+  - Marketing Teams
+
+sections:
+  - id: trend-search
+    title: Trend Search
+    description: Search for trends to analyze
+    searchTypes:
+      - Keyword Lists: Custom keyword lists reusable across Similarweb
+      - Topics: Pre-defined US-centric categories for benchmarking
+      - AI Topics: Semantic-based clusters for broader exploration
+      - Search Terms: Focused term-specific analysis
+
+  - id: global-distribution
+    title: Global Distribution
+    description: Top countries by search volume with growth indicators
+
+  - id: keyword-trends
+    title: Keyword Trends
+    description: Which keywords drive the most searches
+    metrics:
+      - Volume
+      - Share of Total
+      - Growth
+
+  - id: trends-comparison
+    title: Trends Comparison
+    description: Compare trends side by side
+    features:
+      - Keywords Trend Summary
+      - Trends Quadrant (growing, fading, leading, emerging)
+      - Trends Overview (month-by-month volume)
+
+  - id: ai-trend-analyzer
+    title: AI Trend Analyzer
+    description: Explains unusual spikes in search demand
+    features:
+      - Detects spikes in search volume
+      - Identifies keywords driving the surge
+      - Clusters related keywords into groups
+      - Searches web to correlate with events
+
+  - id: trending-topics
+    title: Trending Topics and Clusters
+    description: Pre-defined trending topics with keyword clusters
+    features:
+      - Topics: Predefined keyword lists for consumer trends
+      - Clusters: Sub-trends within larger topics
+
+questionsYouCanAnswer:
+  marketSize:
+    - How big is consumer demand in my industry?
+    - Is the market size strong enough to justify investment?
+    - Is demand growing, shrinking, or seasonal?
+  trendIdentification:
+    - What is the next emerging consumer trend?
+    - Which trends could shape my strategy?
+    - What trends most impact my business right now?
+  trendDrivers:
+    - What is the reason behind a spike in demand?
+    - How can we forecast seasonal changes?
+  productDecisions:
+    - What new products should we offer based on trends?
+    - How should we position or communicate to the market?
+
+trendCategories:
+  - Growing: +5% or more
+  - Stagnating: between -5% and +5%
+  - Declining: -5% or more
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+    description: Including fresh look at last 28 days
+
+  - id: country
+    label: Country
+    type: select
+
+actions:
+  - Search for trends
+  - Compare multiple trends
+  - Use AI Trend Analyzer
+  - Explore predefined topics
+  - Export data
+
+tips:
+  - Trend spotting works best when tracked continuously, not just once
+  - Growth rate is often more valuable than absolute search volume for early opportunities
+  - Name keyword lists clearly for later comparison
+  - Use clusters to spot micro-trends within broader topics
+
+relatedPages:
+  - id: keyword-generator
+    relationship: complementary
+    description: Generate keyword ideas
+  - id: search-overview
+    relationship: complementary
+    description: Analyze search performance
+
+requiredClaims:
+  - keyword_research
+  - demand_analysis
+
+keywords:
+  - demand analysis
+  - consumer trends
+  - search demand
+  - trend tracking
+  - keyword clusters
+  - trending topics
+  - market trends
+  - AI trend analyzer

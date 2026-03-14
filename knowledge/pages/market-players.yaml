@@ -1,0 +1,90 @@
+# Market Players Page Definition
+id: market-players
+name: Market Players
+path: /market-research/market-analysis/players
+category: market-analysis
+featureLocation: Market Research > Market Analysis > Players
+pageType: analysis
+
+description: |
+  Analyze the key players in your market. Understand market share distribution, 
+  track competitor performance, and identify market leaders and emerging players.
+
+valueProposition:
+  - See complete market landscape with all players
+  - Understand market share distribution
+  - Track competitor performance over time
+  - Identify market leaders and challengers
+  - Spot emerging competitors
+
+useCases:
+  - Competitive landscape analysis
+  - Market share tracking
+  - Identify emerging competitors
+  - Benchmark against market leaders
+  - Track market position changes
+
+sections:
+  - id: market-share
+    title: Market Share
+    description: Traffic share distribution among market players
+    metrics:
+      - Domain
+      - Traffic Share
+      - Change over Time
+
+  - id: player-list
+    title: Market Players List
+    description: Complete list of players in the market
+    metrics:
+      - Domain
+      - Category Rank
+      - Traffic Share
+      - Visits
+      - Growth Rate
+
+  - id: emerging-players
+    title: Emerging Players
+    description: Fast-growing players in the market
+    metrics:
+      - Domain
+      - Growth Rate
+      - Market Position Change
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Country
+    type: select
+
+  - id: industry
+    label: Industry
+    type: select
+
+actions:
+  - Select industry
+  - Filter by country
+  - Track over time
+  - Export data
+
+relatedPages:
+  - id: market-overview
+    relationship: overview
+    description: Market overview and sizing
+  - id: market-segmentation
+    relationship: complementary
+    description: Market segmentation analysis
+
+requiredClaims:
+  - market_research
+
+keywords:
+  - market players
+  - market share
+  - competitive landscape
+  - market leaders
+  - emerging competitors
+  - industry players

@@ -1,0 +1,154 @@
+# Website Performance Page Definition
+id: website-performance
+name: Website Performance
+path: /website/{domain}/overview/website-performance
+category: website-analysis
+featureLocation: Website Research > Website Analysis > Website Performance
+pageType: dashboard
+
+description: |
+  View key traffic metrics and performance insights for your website and benchmark against competitors.
+  Get a broad overview including traffic and engagement, visits over time, traffic share by geographic region,
+  top organic and paid search terms, and marketing channel distributions.
+
+valueProposition:
+  - Get an "at-a-glance" view for quick and comprehensive competitive analysis
+  - Compare up to 4 competitor sites to gain valuable insights on your competitive landscape
+  - View traffic trends at granular levels - daily, weekly, and monthly
+  - Identify top countries sending traffic and their engagement metrics
+  - See top organic and paid search terms driving traffic
+
+useCases:
+  - Conduct competitive analysis of traffic insights
+  - Benchmark website performance against competitors
+  - Identify geographic markets with growth opportunities
+  - Understand marketing channel effectiveness
+  - Monitor traffic trends and fluctuations
+
+sections:
+  - id: traffic-engagement
+    title: Traffic & Engagement
+    description: Core traffic and engagement metrics for analyzed websites
+    metrics:
+      - Total Visits
+      - Unique Visitors
+      - Pages per Visit
+      - Average Visit Duration
+      - Bounce Rate
+      - Global Rank
+      - Country Rank
+
+  - id: geography
+    title: Geography
+    description: Top 5 countries sending traffic with percentage of total traffic share
+    metrics:
+      - Traffic Share by Country
+      - Country Distribution
+
+  - id: visits-over-time
+    title: Visits Over Time
+    description: Traffic data trends at daily, weekly, and monthly granularity
+    chartType: line
+
+  - id: marketing-channels
+    title: Marketing Channels
+    description: Percentage of incoming traffic from each marketing channel
+    metrics:
+      - Channel Distribution
+      - Traffic by Source
+
+  - id: search-terms
+    title: Organic/Paid Search Terms
+    description: Top search terms bringing traffic and distribution among competitive set
+    metrics:
+      - Top Organic Keywords
+      - Top Paid Keywords
+      - Traffic Distribution
+
+  - id: referrals
+    title: Referrals
+    description: Top websites and categories sending referral traffic
+    metrics:
+      - Top Referring Sites
+      - Traffic Share
+      - Category Distribution
+
+  - id: social
+    title: Social Traffic
+    description: Leading social networks driving desktop traffic
+    metrics:
+      - Social Network Distribution
+      - Traffic from YouTube, Twitter, Facebook, Reddit
+
+  - id: display
+    title: Display Advertising
+    description: Top advertising networks and publishers referring traffic
+    metrics:
+      - Top Ad Networks
+      - Top Publishers
+      - Traffic Share
+      - Month-over-Month Change
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+    options:
+      - Last Month
+      - Last 3 Months
+      - Last 6 Months
+      - Last 12 Months
+      - Custom Range
+
+  - id: country
+    label: Geographic Region
+    type: select
+    description: Filter by country (availability depends on package)
+
+  - id: webSource
+    label: Data Type
+    type: select
+    options:
+      - label: All Traffic
+        value: total
+      - label: Desktop
+        value: desktop
+      - label: Mobile Web
+        value: mobile
+
+actions:
+  - Compare up to 4 competitor websites
+  - Export data
+  - Drill down into specific channels
+
+tips:
+  - Use the +Compare button to add competitor sites for benchmarking
+  - Focus strategy on countries where you're doing well, or put more effort into low-performing regions
+  - Check the traffic trends to spot potential changes in competitor strategies
+
+relatedPages:
+  - id: traffic-engagement
+    relationship: core-metrics
+    description: Core traffic and engagement metrics, Total Visits, Unique Visitors, rankings
+  - id: marketing-channels
+    relationship: deeper-analysis
+    description: Deep dive into traffic sources and channels
+  - id: geography
+    relationship: deeper-analysis
+    description: Detailed geographic traffic analysis
+  - id: incoming-traffic
+    relationship: deeper-analysis
+    description: Analyze referral traffic sources
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - website performance
+  - traffic overview
+  - competitive analysis
+  - benchmarking
+  - traffic metrics
+  - engagement metrics
+  - visits
+  - bounce rate

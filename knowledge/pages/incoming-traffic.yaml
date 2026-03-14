@@ -1,0 +1,166 @@
+# Incoming Traffic Page Definition
+id: incoming-traffic
+name: Incoming Traffic
+path: /website/{domain}/referral/incoming-traffic
+category: referral-analysis
+featureLocation: Website Research > Website Analysis > Referral > Incoming Traffic
+pageType: analysis
+
+description: |
+  Uncover incoming referral traffic data and insights. Find the complete list of websites 
+  referring traffic to you and your competitors. Discover traffic source, volume, quality, 
+  and trends. Find your wins and missed opportunities.
+
+valueProposition:
+  - Analyze traffic volume sent from referrals to competitors
+  - See referral traffic share by industry distribution
+  - Get breakdown of traffic sources by industry categories
+  - Find opportunities to optimize marketing strategies and partnerships
+  - Discover potential new partnership opportunities
+
+useCases:
+  - Discover partnership opportunities
+  - Analyze competitor referral strategies
+  - Identify referral traffic sources
+  - Find missed opportunities in referral traffic
+  - Optimize affiliate and partnership programs
+
+sections:
+  - id: referring-visits
+    title: Referring Visits
+    description: Total referral visits to analyzed sites
+    metrics:
+      - Total Referral Visits (absolute and percentage)
+      - Referral Visits over time
+      - Traffic distribution trends
+
+  - id: referring-websites
+    title: Referring Websites
+    description: Websites and industries referring traffic
+    metrics:
+      - Domain
+      - Category
+      - Global Rank
+      - Traffic Share
+      - Total Traffic Share
+      - Month-over-Month Change
+      - Competitive Traffic Share
+      - Engagement Leader
+      - Engagement Score
+      - AdSense indicator
+
+  - id: competitive-filters
+    title: Competitive Traffic Filters
+    description: Filter referrals by competitive status
+    options:
+      - Referral Opportunities: Partners sending traffic to competitors but not you
+      - Referral Wins: Where you're winning the traffic
+      - Competitive Referrals: Partners you're competing for
+      - Referral Losses: Partners you're losing to competition
+
+  - id: traffic-share-over-time
+    title: Incoming Referral Traffic Share
+    description: Monthly breakdown of referral traffic share per domain
+    chartType: line
+
+metrics:
+  - id: traffic-share
+    name: Traffic Share
+    description: Average percentage of traffic sent to website in analyzed period (single mode)
+    dataType: percentage
+
+  - id: total-traffic-share
+    name: Total Traffic Share
+    description: Total traffic share sent to domain out of all websites (compare mode)
+    dataType: percentage
+
+  - id: engagement-score
+    name: Engagement Score
+    description: Average level of engagement from specific referral traffic
+    dataType: score
+
+  - id: engagement-leader
+    name: Engagement Leader
+    description: Website with highest average engagement score over previous 12 months from specific referral
+    dataType: domain
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Country
+    type: select
+
+  - id: webSource
+    label: Traffic Type
+    type: select
+    options:
+      - label: Desktop
+        value: desktop
+      - label: Mobile Web
+        value: mobile
+      - label: All Traffic
+        value: total
+
+  - id: referringCategories
+    label: Referring Categories
+    type: multiSelect
+    description: Filter by industry categories
+
+  - id: competitiveTraffic
+    label: Competitive Traffic
+    type: select
+    options:
+      - Referral Opportunities
+      - Referral Wins
+      - Competitive Referrals
+      - Referral Losses
+
+  - id: engagementScore
+    label: Traffic Engagement Score
+    type: range
+
+actions:
+  - Compare up to 4 competitors
+  - Filter by category
+  - Filter by competitive status
+  - View traffic share over time
+  - Export data
+
+tips:
+  - Any site sending traffic to competitors but not you is a potential partnership opportunity
+  - Use Referral Opportunities filter to find partners to pursue
+  - Click the arrow next to websites to see monthly breakdown
+  - Sorting by Change is great for discovering trending partners
+
+faqs:
+  - question: How can google.com be a referral on the Incoming Traffic page?
+    answer: Google.com can sometimes be a referring website. This happens when traffic comes from Google properties other than search, and also occurs in Google Analytics.
+
+relatedPages:
+  - id: traffic-engagement
+    relationship: overview
+    description: Core traffic and engagement metrics overview
+  - id: outgoing-traffic
+    relationship: opposite
+    description: Analyze outgoing referral traffic
+  - id: marketing-channels
+    relationship: overview
+    description: All traffic channels overview
+  - id: website-performance
+    relationship: overview
+    description: Overall website performance
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - incoming traffic
+  - referral traffic
+  - referring websites
+  - partnership opportunities
+  - affiliate traffic
+  - referral analysis
+  - traffic sources

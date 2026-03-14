@@ -1,0 +1,125 @@
+# Audience Overlap Page Definition
+id: audience-overlap
+name: Audience Overlap
+path: /website/{domain}/audience/audience-overlap
+category: audience-analysis
+featureLocation: Website Research > Website Analysis > Audience > Audience Overlap
+pageType: analysis
+
+description: |
+  Analyze the overlapping audiences across multiple websites to pinpoint your untapped audience potential.
+  Understand the size of overlapping audience sets, detect leaders, emerging threats, and opportunities.
+
+valueProposition:
+  - Identify which percentage of your visitors also visit competitor sites
+  - Detect leaders, emerging threats, and market opportunities
+  - Get a picture of your total addressable market
+  - Highlight unreached potential visitors
+  - Understand audience loyalty and preferences
+
+useCases:
+  - Size your audience potential and total addressable market
+  - Find market expansion opportunities
+  - Analyze audience loyalty across competitors
+  - Identify partnership opportunities
+  - Benchmark audience performance against industry
+
+sections:
+  - id: overlap-visualization
+    title: Audience Overlap Diagram
+    description: Graphical display of overlapping audiences for compared sites
+    chartType: venn
+
+  - id: audience-breakdown
+    title: Audience Breakdown
+    description: Unique visitors breakdown for each site and total unique audience
+    metrics:
+      - Total Addressable Audience
+      - Unique Visitors per Site
+      - Shared Audiences
+      - Unreached Potential Visitors
+
+  - id: shared-audiences-table
+    title: Shared Audiences Table
+    description: Percentage of primary site visitors who also visit selected sites
+    metrics:
+      - Shared Unique Visitors
+      - Percentage of Shared Audience
+      - Unreached Potential
+
+  - id: audience-loyalty
+    title: Audience Loyalty
+    description: Visitors who exclusively visit one site vs multiple sites in a month
+    metrics:
+      - Exclusive Visitors Percentage
+      - Multi-site Visitors
+      - Loyalty Traffic Share
+
+metrics:
+  - id: total-addressable-audience
+    name: Total Addressable Audience
+    description: Total unique visitors across all analyzed sites
+    dataType: number
+
+  - id: shared-unique-visitors
+    name: Shared Unique Visitors
+    description: Average monthly unique visitors that visit multiple sites
+    dataType: number
+
+  - id: unreached-potential
+    name: Unreached Potential Visitors
+    description: Unique visitors who don't visit your site but visit competitors
+    dataType: number
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Geographic Region
+    type: select
+
+actions:
+  - Compare up to 5 websites
+  - View overlap for each intersection
+  - Trend analysis over time
+  - Toggle between comparison modes
+
+tips:
+  - Hover over intersections to see the number of unique visitors and proportions
+  - Try trending your analysis over time to see how audience share changes month to month
+  - Sites with greater loyalty show fewer sites visited by their audience
+  - Use the Industry filter to benchmark against industry average
+
+faqs:
+  - question: Why are large sites like amazon.com not on the table?
+    answer: For each website and country filter, we present the top 1,000 most relevant sites. Big sites would always have higher overlap, so we filter for relevancy to show interesting results.
+  - question: What time frame is Audience Loyalty based on?
+    answer: Audience loyalty is calculated based on monthly unique visitors. If a user visited another site within the same month, they will be counted.
+  - question: Is only desktop data available?
+    answer: Yes, Audience Overlap currently only supports desktop data.
+
+relatedPages:
+  - id: audience-interests
+    relationship: complementary
+    description: Understand cross-browsing behaviors
+  - id: similar-sites
+    relationship: complementary
+    description: Find similar websites
+  - id: demographics
+    relationship: complementary
+    description: Analyze audience demographics
+
+requiredClaims:
+  - website_analysis
+  - audience_analysis
+
+keywords:
+  - audience overlap
+  - shared audience
+  - total addressable market
+  - audience loyalty
+  - unique visitors
+  - market sizing
+  - competitive audience

@@ -1,0 +1,126 @@
+# Market Overview Page Definition
+id: market-overview
+name: Market Overview
+path: /market-research/market-analysis/overview
+category: market-analysis
+featureLocation: Market Research > Market Analysis > Select Industry > Overview
+pageType: dashboard
+
+description: |
+  Assess a pre-defined or custom-made market at a glance. Understand market difficulty, 
+  consolidation, top players, market size, and growth trends.
+
+valueProposition:
+  - Track category performance over time to identify opportunities
+  - Support strategic choices and resource allocation
+  - Assess market dynamics and potential challenges
+  - Understand how difficult it is to compete or enter a market
+  - Identify top players and market leaders
+
+useCases:
+  - Market research and sizing
+  - Competitive positioning assessment
+  - Market entry evaluation
+  - Strategic resource allocation
+  - Industry trend analysis
+
+sections:
+  - id: audience
+    title: Audience
+    description: Market size based on unique visitors
+    metrics:
+      - Unique Visitors (market size)
+      - YoY Change
+      - Popularity Score (share of digital population)
+
+  - id: key-sizing-indicators
+    title: Key Sizing Indicators
+    description: Metrics to assess market attractiveness
+    metrics:
+      - Visit Duration
+      - Pages per Visit
+      - Unbounced Visits
+      - Visits per Visitor
+      - Unique Visitors
+      - Monthly Visits
+
+  - id: top-players
+    title: Top Players
+    description: Market leaders and their traffic share in last month
+    metrics:
+      - Domain
+      - Traffic Share
+
+  - id: top-countries
+    title: Top Countries
+    description: Top countries sending traffic to the market
+
+  - id: market-difficulty
+    title: Market Difficulty
+    description: Assessment of difficulty to enter/compete in market
+    factors:
+      - Brand: Percentage of visits via branded searches or direct
+      - Cost: Estimated PPC spending per site in industry
+      - Consolidation: Traffic share held by market leaders (top 1%)
+      - Loyalty: Percentage of users visiting only 1 site in industry
+    scores: [High, Medium, Low]
+
+  - id: market-distribution
+    title: Market Distribution
+    description: How fragmented or consolidated the industry is
+    note: Only available for pre-defined Similarweb industries
+
+filters:
+  - id: industry
+    label: Industry
+    type: select
+    description: Pre-defined or custom industry
+
+  - id: country
+    label: Country
+    type: select
+
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+actions:
+  - Select pre-defined industry
+  - Create custom industry
+  - Analyze market trends
+  - Export data
+
+tips:
+  - All metrics are based on the top 100 websites in an industry
+  - Tracking digital market share is vital for assessing competitive position
+  - Knowing dominant countries helps identify opportunities and target marketing
+  - Market difficulty factors are indicative - large players may find it easier in markets they dominate
+
+faqs:
+  - question: How do you determine the top 100 websites?
+    answer: Based on the most recent month's data. The list may change monthly as traffic shifts.
+  - question: How are Unique Visitors calculated?
+    answer: Based on deduplicated visitor counts across analyzed sites.
+
+relatedPages:
+  - id: market-players
+    relationship: deeper-analysis
+    description: Detailed player analysis
+  - id: market-segmentation
+    relationship: complementary
+    description: Segment the market
+  - id: custom-industry
+    relationship: workflow
+    description: Create custom industry
+
+requiredClaims:
+  - market_research
+
+keywords:
+  - market overview
+  - market research
+  - market size
+  - market difficulty
+  - top players
+  - industry analysis
+  - market entry

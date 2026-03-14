@@ -1,0 +1,105 @@
+# Audience Interests Page Definition
+id: audience-interests
+name: Audience Interests
+path: /website/{domain}/audience/audience-interests
+category: audience-analysis
+featureLocation: Website Research > Website Analysis > Audience > Audience Interests
+pageType: analysis
+
+description: |
+  Discover the cross-browsing behavior of your audience to understand what other sites they visit 
+  and gauge their interests relative to your competitors.
+
+valueProposition:
+  - Understand user intent through browsing behaviors
+  - Reveal insights about the purchasing funnel
+  - Discover new audiences for acquisition strategies
+  - See other products or solutions audiences are evaluating
+  - Identify domains winning traffic from shared audiences
+
+useCases:
+  - Understand audience browsing behavior and intent
+  - Discover new audience acquisition opportunities
+  - Identify cross-visitation patterns with competitors
+  - Reveal consideration stage behavior
+  - Develop audience targeting strategies
+
+sections:
+  - id: cross-browsing
+    title: Cross-Browsing Behaviors
+    description: Percentage of unique visitors who also visited other analyzed sites on the same day
+    metrics:
+      - Cross-Visitation Percentage
+      - Comparison vs Previous Period
+
+  - id: overlapping-sites
+    title: Overlapping Sites
+    description: Complete list of sites with cross-visitation percentage and relevance score
+    metrics:
+      - Cross-Visitation Percentage
+      - Relevance Score
+      - Industry Category
+      - Global Website Rank
+
+metrics:
+  - id: cross-visitation
+    name: Cross-Visitation Percentage
+    description: Percentage of unique visitors who visited another site on the same day
+    dataType: percentage
+
+  - id: relevance-score
+    name: Relevance Score
+    description: How relevant the overlapping site is to the analyzed domain
+    dataType: score
+
+filters:
+  - id: webSource
+    label: Data Type
+    type: select
+    options:
+      - label: Desktop
+        value: desktop
+      - label: Mobile Web
+        value: mobile
+      - label: All Traffic
+        value: total
+
+actions:
+  - Compare multiple sites
+  - Hover for quick analysis
+  - Filter by industry
+  - Export data
+
+tips:
+  - Hover over any cell to see how cross-visitation has changed compared to the previous period
+  - Hover over any domain and click the blue arrow for a Quick Analysis with monthly visits
+  - Use cross-browsing data to discover sites winning traffic from your audience
+
+faqs:
+  - question: What's the calculation of "All Traffic" Cross Visitation?
+    answer: Total traffic is based on the average of Desktop & Mobile combined, calculated individually.
+  - question: What's the difference between Cross-Browsing Interests and Audience Overlap?
+    answer: Cross-Browsing shows head-to-head overlap but doesn't show full audience reach. Audience Overlap compares up to five websites and shows overlap across all.
+
+relatedPages:
+  - id: audience-overlap
+    relationship: complementary
+    description: Analyze shared audiences
+  - id: demographics
+    relationship: complementary
+    description: View audience demographics
+  - id: similar-sites
+    relationship: complementary
+    description: Find similar websites
+
+requiredClaims:
+  - website_analysis
+  - audience_analysis
+
+keywords:
+  - audience interests
+  - cross-browsing
+  - browsing behavior
+  - user intent
+  - audience discovery
+  - cross-visitation

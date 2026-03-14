@@ -1,0 +1,174 @@
+# Traffic & Engagement Page Definition
+# Source: https://support.similarweb.com/hc/en-us/articles/115004606345-View-Traffic-Engagement
+id: traffic-engagement
+name: Traffic & Engagement
+path: /website/{domain}/traffic-engagement
+category: traffic-analysis
+featureLocation: Website Research > Website Analysis > Traffic and Engagement
+pageType: dashboard
+
+description: |
+  The Traffic and Engagement page provides a quick look into the traffic of any website(s), including
+  the number of visits, engagement, rankings, and more. Measure and compare digital traffic volume
+  and distribution, and get a clear understanding of the quality of that traffic.
+
+valueProposition:
+  - Gain an overview of a company or brand's digital market share
+  - See how traffic volume is distributed among competitors and where you stand
+  - Understand how well a brand is performing by visitor reach and engagement quality
+  - Discover trends and seasonality with traffic trend lines across multiple measurements
+  - Gain insights into audience behavior over time (daily, weekly, monthly granularity)
+  - Take a deeper dive to reveal a brand's acquisition strategies
+
+useCases:
+  - Benchmark traffic volume and market share against competitors
+  - Compare traffic quality and engagement metrics across sites
+  - Track traffic trends and seasonality over time
+  - Analyze device distribution and optimize for user acquisition
+  - Understand audience loyalty with new vs returning users
+  - Measure market potential and visitor reach
+
+sections:
+  - id: total-visits
+    title: Total Visits
+    description: Benchmark traffic volume for each brand and understand market share and potential market reach
+    metrics:
+      - Total Visits (percentage share or absolute numbers)
+      - Device Distribution (traffic per device)
+
+  - id: rankings
+    title: Similarweb Rankings
+    description: See how each brand stacks up globally, locally, or by category
+    metrics:
+      - Global Rank
+      - Country Rank
+      - Category Rank
+
+  - id: monthly-visits
+    title: Monthly Visits
+    description: Reveal a brand's monthly market potential
+    metrics:
+      - Monthly Visits
+      - Monthly Unique Visitors
+
+  - id: engagement-metrics
+    title: Engagement Metrics
+    description: Benchmark quality and relevancy of visitors
+    metrics:
+      - Average Visit Duration
+      - Pages per Visit
+      - Bounce Rate
+      - Visits per Unique Visitors
+
+  - id: traffic-over-time
+    title: Traffic and Engagement Over Time
+    description: Analyze peaks, drops, trends, and seasonality
+    metrics:
+      - Monthly Visits over time
+      - Monthly Unique Visitors over time
+      - Average Visit Duration over time
+      - Pages per Visit over time
+      - Bounce Rate over time
+    note: Apply daily, weekly, or monthly granularity
+
+  - id: new-vs-returning
+    title: New vs Returning Users
+    description: Analyze audience loyalty and engagement levels
+    metrics:
+      - Percentage of new users
+      - Percentage of returning users
+    note: Uses All Traffic data set (Mobile and Desktop combined). Returning = visited more than once in 3 months. New = no visit for at least 3 months.
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+    options:
+      - Last Month
+      - Last 3 Months
+      - Last 6 Months
+      - Last 12 Months
+      - Custom Range
+
+  - id: country
+    label: Geographic Region
+    type: select
+
+  - id: webSource
+    label: Data Type
+    type: select
+    options:
+      - label: All Traffic
+        value: total
+      - label: Desktop
+        value: desktop
+      - label: Mobile Web
+        value: mobile
+
+  - id: includeSubdomains
+    label: Include Subdomains
+    type: toggle
+    description: Toggle off to remove subdomains from results
+
+actions:
+  - Compare up to 5 competitor websites
+  - View traffic in percentage share or absolute numbers
+  - Toggle Month to Date for trends to date (pre-defined time frames only)
+  - Toggle Year over Year for yearly comparisons
+  - Export data
+
+tips:
+  - Use % or # to view traffic in percentage share of all visits or absolute numbers
+  - Toggle Month to Date to understand trends to date per channel and optimize acquisition strategies
+  - Toggle Year over Year to see engagement performance difference since the previous year
+  - Compare device distribution to optimize for user acquisition
+
+relatedPages:
+  - id: website-performance
+    relationship: overview
+    description: Broader performance overview with channels and geography
+  - id: marketing-channels
+    relationship: deeper-analysis
+    description: Deep dive into traffic sources and acquisition channels
+  - id: incoming-traffic
+    relationship: deeper-analysis
+    description: Analyze referral traffic sources
+  - id: geography
+    relationship: deeper-analysis
+    description: Traffic distribution by country
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - traffic and engagement
+  - traffic engagement
+  - total visits
+  - unique visitors
+  - engagement metrics
+  - bounce rate
+  - market share
+  - traffic volume
+  - traffic quality
+  - new vs returning users
+  - traffic trends
+  - visit duration
+  - pages per visit
+
+glossary:
+  - term: Total Visits
+    definition: Number of visits to a website in the selected period
+  - term: Unique Visitors
+    definition: Number of distinct people who visited the website
+  - term: Visits per Unique Visitors
+    definition: Number of times each visitor visited the analyzed website
+  - term: New vs Returning Users
+    definition: New users did not visit for at least 3 months; returning users visited more than once within 3 months
+
+faqs:
+  - question: Where is the Traffic and Engagement page?
+    answer: Website Research > Website Analysis > Enter a website > Traffic and Engagement (in the sidebar)
+  - question: How many sites can I compare?
+    answer: You can compare traffic and engagement metrics for up to 5 sites
+  - question: Can I exclude subdomains?
+    answer: Yes, click the three dots on the top right and toggle off Include Subdomains

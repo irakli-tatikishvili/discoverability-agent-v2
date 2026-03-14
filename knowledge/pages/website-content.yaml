@@ -1,0 +1,127 @@
+# Website Content Page Definition
+id: website-content
+name: Website Content
+path: /website/{domain}/website-content
+category: website-analysis
+featureLocation: Website Research > Website Analysis > Website Content
+pageType: analysis
+
+description: |
+  Website Content combines four ways of dissecting a website into one comprehensive report. 
+  Easily identify the most popular pages, folders, subdomains, and business lines for any domain.
+
+valueProposition:
+  - Uncover hidden opportunities for your digital presence
+  - Identify top-performing website areas
+  - Easily understand how websites organize content
+  - Access insights on core website components
+  - Create website segments from folder analysis
+
+useCases:
+  - Content strategy analysis
+  - Identify popular pages and content
+  - Understand website structure
+  - Create website segments
+  - Track brand and product interest
+  - Monitor competitor campaigns
+
+sections:
+  - id: folders
+    title: Folders
+    description: Identify which parts of a website get the most traffic share
+    metrics:
+      - Folder Path
+      - Traffic Share
+      - Change over Time
+    actions:
+      - Open URL in new tab
+      - Copy URL to clipboard
+      - Explore URL keywords
+      - Create segment from folder
+
+  - id: popular-pages
+    title: Popular Pages
+    description: Top pages and best performing content at page level
+    metrics:
+      - Page URL
+      - Traffic Share
+      - Trending Status
+    filters:
+      - Best Performing (consistent performers)
+      - Trending
+      - New
+      - Evergreen
+    actions:
+      - Open URL in new tab
+      - Copy URL to clipboard
+      - Explore URL keywords
+      - View individual pages
+
+  - id: subdomains
+    title: Subdomains
+    description: Traffic share breakdown for main domain and related subdomains
+    metrics:
+      - Subdomain
+      - Traffic Share
+
+  - id: business-lines
+    title: Business Lines
+    description: Benchmark digital performance of specific website sections
+    metrics:
+      - Business Line Name
+      - Traffic Share
+      - Competitive Intelligence
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Country
+    type: select
+
+  - id: webSource
+    label: Traffic Type
+    type: select
+
+  - id: pageClassify
+    label: Page Classification
+    type: select
+    options:
+      - All
+      - Evergreen
+      - New
+      - Trending
+
+actions:
+  - Compare up to 4 competitors
+  - Create segments from folders
+  - Drill down into individual pages
+  - Export data
+
+tips:
+  - Use Folders to identify sections for website segment creation
+  - Popular Pages helps track competitor marketing campaigns
+  - Subdomains help differentiate general traffic from customer traffic
+  - Click the [+] button on pages to see individual page details
+
+relatedPages:
+  - id: website-segments
+    relationship: workflow
+    description: Create and analyze website segments
+  - id: website-performance
+    relationship: overview
+    description: Overall performance metrics
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - website content
+  - popular pages
+  - folders
+  - subdomains
+  - business lines
+  - content analysis
+  - page performance

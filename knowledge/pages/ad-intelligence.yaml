@@ -1,0 +1,103 @@
+# Ad Intelligence Overview Page Definition
+id: ad-intelligence
+name: Ad Intelligence
+path: /ad-intelligence/overview
+category: advertising-analysis
+featureLocation: Web Intelligence > Ad Intelligence
+pageType: dashboard
+
+description: |
+  Analyze display advertising strategies across the web. Understand advertiser activities, 
+  publisher performance, ad creatives, and video ad campaigns.
+
+valueProposition:
+  - Understand competitor advertising strategies
+  - Discover top publishers in your industry
+  - Analyze ad creative performance
+  - Track advertiser activity over time
+  - Identify partnership opportunities with publishers
+
+useCases:
+  - Competitive advertising analysis
+  - Identify publisher partnerships
+  - Analyze ad creative strategies
+  - Track advertiser spending patterns
+  - Discover advertising opportunities
+
+sections:
+  - id: advertiser-activity
+    title: Advertiser Activity
+    description: Track advertiser campaign activity
+    metrics:
+      - Advertiser
+      - Ad Impressions
+      - Publishers Used
+      - Campaign Duration
+
+  - id: publisher-performance
+    title: Publisher Performance
+    description: Analyze publisher ad performance
+    metrics:
+      - Publisher Domain
+      - Advertisers Count
+      - Traffic Share
+      - Ad Networks
+
+  - id: ad-creatives
+    title: Ad Creatives
+    description: View and analyze ad creative assets
+    metrics:
+      - Creative Type
+      - Impressions
+      - Duration Active
+
+  - id: video-campaigns
+    title: Video Ad Campaigns
+    description: Analyze video advertising campaigns
+    metrics:
+      - Campaign
+      - Platform
+      - Views
+      - Duration
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Country
+    type: select
+
+  - id: adType
+    label: Ad Type
+    type: select
+    options:
+      - Display
+      - Video
+      - Native
+
+actions:
+  - Analyze advertisers
+  - View publishers
+  - Browse creatives
+  - Export data
+
+relatedPages:
+  - id: marketing-channels
+    relationship: overview
+    description: Display ads as traffic channel
+  - id: website-performance
+    relationship: overview
+    description: Overall website performance
+
+requiredClaims:
+  - ad_intelligence
+
+keywords:
+  - ad intelligence
+  - display advertising
+  - advertiser activity
+  - publisher performance
+  - ad creatives
+  - video ads

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimilarWeb Platform</title>
+<style>
+:root {
+  --sw-dark: #0b1222;
+  --sw-sidebar: #111827;
+  --sw-header: #0f172a;
+  --sw-accent: #4a6cf7;
+  --sw-accent-hover: #3b5de7;
+  --sw-light: #f0f4ff;
+  --sw-bg: #f1f5f9;
+  --sw-card: #ffffff;
+  --sw-text: #1e293b;
+  --sw-muted: #64748b;
+  --sw-border: #e2e8f0;
+  --sw-dark-border: #1e293b;
+  --sw-dark-text: #94a3b8;
+  --sw-dark-hover: #1e293b;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--sw-bg); color: var(--sw-text); height: 100vh; overflow: hidden; }
+
+/* ── Onboarding Overlay ── */
+.onboarding-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(11,18,34,0.92); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+}
+.onboarding-overlay.done { display: none; }
+.onboarding-card {
+  background: var(--sw-card); border-radius: 16px; padding: 48px 44px; width: 100%; max-width: 520px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: fadeUp 0.35s ease;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.onboarding-card h2 { font-size: 24px; font-weight: 700; color: var(--sw-text); margin-bottom: 6px; }
+.onboarding-card p.subtitle { color: var(--sw-muted); font-size: 14px; margin-bottom: 28px; }
+.ob-progress { display: flex; gap: 8px; margin-bottom: 28px; }
+.ob-progress .dot { height: 4px; flex: 1; border-radius: 2px; background: var(--sw-border); transition: background 0.3s; }
+.ob-progress .dot.active { background: var(--sw-accent); }
+.ob-name-input {
+  width: 100%; padding: 14px 18px; border: 2px solid var(--sw-border); border-radius: 12px;
+  font-size: 16px; outline: none; transition: border-color 0.2s; background: white;
+}
+.ob-name-input:focus { border-color: var(--sw-accent); }
+.ob-option {
+  display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+  border: 2px solid var(--sw-border); border-radius: 12px; cursor: pointer;
+  transition: all 0.2s; margin-bottom: 10px; background: white;
+}
+.ob-option:hover { border-color: var(--sw-accent); background: var(--sw-light); }
+.ob-option.selected { border-color: var(--sw-accent); background: var(--sw-light); box-shadow: 0 0 0 3px rgba(74,108,247,0.12); }
+.ob-option-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--sw-light); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.ob-option.selected .ob-option-icon { background: var(--sw-accent); }
+.ob-option.selected .ob-option-icon span { filter: brightness(10); }
+.ob-option-text h3 { font-size: 15px; font-weight: 600; }
+.ob-option-text p { font-size: 12px; color: var(--sw-muted); margin-top: 2px; }
+.ob-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--sw-border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-left: auto; transition: all 0.2s; }
+.ob-option.selected .ob-check { background: var(--sw-accent); border-color: var(--sw-accent); }
+.ob-option.selected .ob-check::after { content: '\2713'; color: white; font-size: 12px; font-weight: 700; }
+.ob-actions { display: flex; justify-content: space-between; margin-top: 28px; }
+.ob-btn { padding: 12px 28px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.ob-btn-primary { background: var(--sw-accent); color: white; }
+.ob-btn-primary:hover { background: var(--sw-accent-hover); }
+.ob-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.ob-btn-skip { background: transparent; color: var(--sw-muted); text-decoration: underline; font-size: 13px; border: none; cursor: pointer; }
+
+/* ── Platform Layout ── */
+.app { display: grid; grid-template-columns: 240px 1fr; grid-template-rows: 52px 1fr; height: 100vh; }
+.top-bar { grid-column: 1 / -1; background: var(--sw-header); display: flex; align-items: center; padding: 0 20px; gap: 20px; border-bottom: 1px solid var(--sw-dark-border); z-index: 100; }
+.logo { display: flex; align-items: center; gap: 8px; color: white; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+.logo svg { width: 22px; height: 22px; fill: var(--sw-accent); }
+.domain-bar { display: flex; align-items: center; gap: 8px; background: var(--sw-dark); border: 1px solid var(--sw-dark-border); border-radius: 8px; padding: 6px 12px; flex: 0 1 340px; }
+.domain-bar svg { width: 14px; height: 14px; fill: var(--sw-dark-text); flex-shrink: 0; }
+.domain-bar input { background: none; border: none; color: white; font-size: 13px; outline: none; width: 100%; }
+.domain-bar input::placeholder { color: var(--sw-dark-text); }
+.breadcrumb { color: var(--sw-dark-text); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.sidebar { background: var(--sw-sidebar); border-right: 1px solid var(--sw-dark-border); overflow-y: auto; padding: 12px 0; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--sw-dark-border); border-radius: 2px; }
+.nav-group { margin-bottom: 4px; }
+.nav-group-label { padding: 8px 16px 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--sw-dark-text); cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+.nav-group-label:hover { color: #cbd5e1; }
+.nav-group-label .arrow { font-size: 8px; transition: transform 0.2s; }
+.nav-group.collapsed .arrow { transform: rotate(-90deg); }
+.nav-group.collapsed .nav-items { display: none; }
+.nav-item { display: block; padding: 7px 16px 7px 24px; font-size: 13px; color: #cbd5e1; cursor: pointer; transition: all 0.15s; border-left: 2px solid transparent; text-decoration: none; }
+.nav-item:hover { background: var(--sw-dark-hover); color: white; }
+.nav-item.active { background: rgba(74,108,247,0.12); color: var(--sw-accent); border-left-color: var(--sw-accent); font-weight: 600; }
+
+.main { overflow-y: auto; padding: 28px 32px 100px; }
+.welcome { text-align: center; padding: 80px 20px; max-width: 600px; margin: 0 auto; }
+.welcome h1 { font-size: 28px; font-weight: 700; color: var(--sw-text); margin-bottom: 10px; }
+.welcome p { color: var(--sw-muted); font-size: 15px; line-height: 1.6; }
+
+.page-header-section { margin-bottom: 28px; }
+.page-header-section h1 { font-size: 22px; font-weight: 700; color: var(--sw-text); margin-bottom: 4px; }
+.page-header-section .page-location { font-size: 12px; color: var(--sw-muted); margin-bottom: 8px; }
+.page-header-section .page-desc { font-size: 14px; color: var(--sw-muted); line-height: 1.5; max-width: 700px; }
+.page-type-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+.page-type-badge.dashboard { background: #dbeafe; color: #1d4ed8; }
+.page-type-badge.analysis { background: #f3e8ff; color: #7c3aed; }
+.page-type-badge.tool { background: #dcfce7; color: #16a34a; }
+.page-type-badge.report { background: #fef3c7; color: #d97706; }
+.section-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.section-card { background: var(--sw-card); border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--sw-border); }
+.section-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--sw-text); }
+.section-card p { font-size: 12px; color: var(--sw-muted); line-height: 1.5; }
+.section-card .chart-placeholder { margin-top: 12px; height: 80px; background: var(--sw-bg); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--sw-muted); }
+.metrics-table { width: 100%; border-collapse: collapse; background: var(--sw-card); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--sw-border); margin-bottom: 28px; }
+.metrics-table th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--sw-muted); background: var(--sw-bg); border-bottom: 1px solid var(--sw-border); }
+.metrics-table td { padding: 10px 16px; font-size: 13px; border-bottom: 1px solid var(--sw-border); }
+.metrics-table tr:last-child td { border-bottom: none; }
+.metric-value { font-weight: 600; color: var(--sw-accent); }
+.info-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.info-pill { padding: 5px 12px; background: var(--sw-light); color: var(--sw-accent); border-radius: 6px; font-size: 11px; font-weight: 600; }
+.tips-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 16px 20px; margin-bottom: 28px; }
+.tips-box h4 { font-size: 13px; font-weight: 700; color: #92400e; margin-bottom: 8px; }
+.tips-box li { font-size: 12px; color: #78350f; line-height: 1.6; margin-left: 16px; }
+.related-pages { margin-bottom: 28px; }
+.related-pages h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--sw-text); }
+.related-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.related-chip { padding: 6px 14px; background: var(--sw-card); border: 1px solid var(--sw-border); border-radius: 8px; font-size: 12px; color: var(--sw-text); cursor: pointer; transition: all 0.15s; }
+.related-chip:hover { border-color: var(--sw-accent); color: var(--sw-accent); }
+
+/* ── Chat Widget ── */
+.chat-launcher { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--sw-accent); color: white; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(74,108,247,0.4); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, box-shadow 0.2s; z-index: 9999; }
+.chat-launcher:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(74,108,247,0.5); }
+.chat-launcher svg { width: 24px; height: 24px; }
+.chat-launcher .icon-close { display: none; }
+.chat-launcher.open .icon-chat { display: none; }
+.chat-launcher.open .icon-close { display: block; }
+.chat-widget { position: fixed; bottom: 92px; right: 24px; width: 380px; height: 560px; max-height: calc(100vh - 120px); background: var(--sw-bg); border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18); display: none; flex-direction: column; overflow: hidden; z-index: 9998; }
+.chat-widget.open { display: flex; animation: widgetIn 0.25s ease; }
+@keyframes widgetIn { from { opacity: 0; transform: translateY(12px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.widget-header { background: var(--sw-header); color: white; padding: 14px 18px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.widget-header svg { width: 20px; height: 20px; fill: var(--sw-accent); flex-shrink: 0; }
+.widget-header span { font-size: 13px; font-weight: 600; }
+.widget-body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.chat-panel { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.messages { flex: 1; overflow-y: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+.msg { max-width: 84%; padding: 9px 12px; border-radius: 12px; font-size: 12px; line-height: 1.5; animation: fadeUp 0.2s ease; }
+.msg.user { align-self: flex-end; background: var(--sw-accent); color: white; border-bottom-right-radius: 4px; }
+.msg.agent { align-self: flex-start; background: white; border: 1px solid var(--sw-border); border-bottom-left-radius: 4px; }
+.msg-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--sw-muted); margin-top: 10px; margin-bottom: 4px; }
+.msg.agent .suggested-pages { display: flex; flex-wrap: wrap; gap: 4px; }
+.page-chip { display: inline-block; padding: 4px 10px; background: var(--sw-light); color: var(--sw-accent); border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.15s; border: 1px solid transparent; }
+.page-chip:hover { background: var(--sw-accent); color: white; }
+.quick-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.quick-action-btn { padding: 4px 10px; background: white; border: 1.5px solid var(--sw-accent); color: var(--sw-accent); border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.quick-action-btn:hover { background: var(--sw-accent); color: white; }
+.follow-ups { display: flex; flex-wrap: wrap; gap: 4px; }
+.follow-up-btn { padding: 4px 10px; background: var(--sw-bg); border: 1px solid var(--sw-border); color: var(--sw-text); border-radius: 14px; font-size: 10px; cursor: pointer; transition: all 0.15s; }
+.follow-up-btn:hover { border-color: var(--sw-accent); color: var(--sw-accent); }
+.typing-indicator { align-self: flex-start; padding: 9px 12px; background: white; border: 1px solid var(--sw-border); border-radius: 12px; border-bottom-left-radius: 4px; display: none; margin: 0 14px; }
+.typing-indicator.active { display: flex; gap: 3px; align-items: center; }
+.typing-dot { width: 5px; height: 5px; background: var(--sw-muted); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,80%,100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+.chat-input-bar { padding: 10px 14px; display: flex; gap: 6px; align-items: center; border-top: 1px solid var(--sw-border); background: white; flex-shrink: 0; }
+.chat-input-bar input { flex: 1; padding: 8px 12px; border: 2px solid var(--sw-border); border-radius: 8px; font-size: 12px; outline: none; transition: border-color 0.15s; background: var(--sw-bg); }
+.chat-input-bar input:focus { border-color: var(--sw-accent); }
+.chat-input-bar button { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--sw-accent); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; }
+.chat-input-bar button:hover { background: var(--sw-accent-hover); }
+.chat-input-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
+.chat-input-bar button svg { width: 14px; height: 14px; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ══ Onboarding Overlay ══ -->
+<div class="onboarding-overlay" id="onboardingOverlay">
+  <!-- Step 0: Name -->
+  <div class="onboarding-card" id="obStep0">
+    <div class="ob-progress"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+    <h2>Hi! Let's get to know each other.</h2>
+    <p class="subtitle">What should I call you?</p>
+    <input type="text" class="ob-name-input" id="obNameInput" placeholder="Enter your name..."
+           onkeydown="if(event.key==='Enter')obGoToStep1()"
+           oninput="document.getElementById('obStep0Next').disabled=!this.value.trim()">
+    <div class="ob-actions">
+      <button class="ob-btn-skip" onclick="obSkip()">Skip onboarding</button>
+      <button class="ob-btn ob-btn-primary" id="obStep0Next" disabled onclick="obGoToStep1()">Continue</button>
+    </div>
+  </div>
+
+  <!-- Step 1: Primary Focus -->
+  <div class="onboarding-card hidden" id="obStep1">
+    <div class="ob-progress"><div class="dot active"></div><div class="dot active"></div><div class="dot"></div></div>
+    <h2 id="obStep1Heading">What would you like to focus on?</h2>
+    <p class="subtitle">Choose the area that best matches your goals.</p>
+    <div class="ob-option" data-value="analyze-competitors-market" onclick="obSelectPrimary(this)">
+      <div class="ob-option-icon"><span>&#x1F4CA;</span></div>
+      <div class="ob-option-text"><h3>Analyze websites &amp; market trends</h3><p>Traffic, benchmarking, market insights</p></div>
+      <div class="ob-check"></div>
+    </div>
+    <div class="ob-option" data-value="improve-seo-ppc" onclick="obSelectPrimary(this)">
+      <div class="ob-option-icon"><span>&#x1F50D;</span></div>
+      <div class="ob-option-text"><h3>Improve SEO and PPC</h3><p>Keywords, rank tracking, ad intelligence</p></div>
+      <div class="ob-check"></div>
+    </div>
+    <div class="ob-option" data-value="genai-visibility" onclick="obSelectPrimary(this)">
+      <div class="ob-option-icon"><span>&#x1F916;</span></div>
+      <div class="ob-option-text"><h3>Gen AI brand visibility</h3><p>AI chatbot traffic, citations, prompts</p></div>
+      <div class="ob-check"></div>
+    </div>
+    <div class="ob-actions">
+      <button class="ob-btn-skip" onclick="obSkip()">Skip</button>
+      <button class="ob-btn ob-btn-primary" id="obStep1Next" disabled onclick="obGoToStep2()">Continue</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Sub-focus -->
+  <div class="onboarding-card hidden" id="obStep2">
+    <div class="ob-progress"><div class="dot active"></div><div class="dot active"></div><div class="dot active"></div></div>
+    <h2>What are your specific goals?</h2>
+    <p class="subtitle">Select all that apply.</p>
+    <div id="obSubFocusOptions"></div>
+    <div class="ob-actions">
+      <button class="ob-btn" style="background:transparent;color:var(--sw-muted)" onclick="obGoBackToStep1()">&larr; Back</button>
+      <button class="ob-btn ob-btn-primary" onclick="obFinish()">Get started</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Platform ══ -->
+<div class="app">
+  <div class="top-bar">
+    <div class="logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      SimilarWeb
+    </div>
+    <div class="domain-bar">
+      <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 00-1.38-3.56A8.03 8.03 0 0118.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.987 7.987 0 015.08 16zm2.95-8H5.08a7.987 7.987 0 014.33-3.56A15.65 15.65 0 008.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 01-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+      <input type="text" id="domainInput" placeholder="Enter a domain (e.g. example.com)" value="example.com" />
+    </div>
+    <div class="breadcrumb" id="breadcrumb"></div>
+  </div>
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main" id="mainContent">
+    <div class="welcome">
+      <h1>Welcome to SimilarWeb</h1>
+      <p>Select a page from the sidebar to explore the platform. The chatbot assistant in the bottom-right corner knows which page you're viewing and can help you understand features, metrics, and next steps.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Chat Launcher -->
+<button class="chat-launcher" id="chatLauncher" onclick="toggleWidget()">
+  <svg class="icon-chat" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+  <svg class="icon-close" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+</button>
+
+<!-- Chat Widget (no quiz -- chat only) -->
+<div class="chat-widget" id="chatWidget">
+  <div class="widget-header">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+    <span>SimilarWeb Assistant</span>
+  </div>
+  <div class="widget-body">
+    <div class="chat-panel">
+      <div class="messages" id="messages"></div>
+      <div class="typing-indicator" id="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+      <div class="chat-input-bar">
+        <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()">
+        <button onclick="sendMessage()" id="sendBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let allPages = [];
+let allCategories = [];
+let currentPageId = null;
+let currentPageData = null;
+let quizState = { primaryFocus: '', subFocuses: [] };
+let userName = '';
+let botHasIntroduced = false;
+const sessionId = crypto.randomUUID();
+
+const SUB_FOCUSES = {
+  'analyze-competitors-market': [
+    { id: 'traffic-sources', label: "Analyze competitors' traffic sources", icon: '\u{1F4C8}' },
+    { id: 'market-share-shifts', label: 'Track market share shifts', icon: '\u{1F3C6}' },
+    { id: 'benchmark-industry', label: 'Benchmark industry players', icon: '\u{1F4CB}' },
+    { id: 'understand-audience', label: 'Understand my audience', icon: '\u{1F465}' },
+    { id: 'consumer-trends', label: 'Spot consumer trends', icon: '\u{1F4C9}' },
+  ],
+  'improve-seo-ppc': [
+    { id: 'keyword-research-gap', label: 'Keyword research & gap analysis', icon: '\u{1F511}' },
+    { id: 'track-search-position', label: 'Track search position', icon: '\u{1F4CD}' },
+    { id: 'technical-seo-audit', label: 'Audit technical SEO', icon: '\u{1F527}' },
+    { id: 'backlink-research', label: 'Research backlinks', icon: '\u{1F517}' },
+    { id: 'competitor-ads', label: 'Analyze competitor ads', icon: '\u{1F4E2}' },
+    { id: 'genai-visibility-traffic', label: 'Track GenAI visibility', icon: '\u{1F916}' },
+  ],
+};
+
+const FOCUS_LABELS = {
+  'analyze-competitors-market': 'analyzing websites and market trends',
+  'improve-seo-ppc': 'improving SEO and PPC',
+  'genai-visibility': 'improving Gen AI visibility',
+};
+
+/** Quiz-aware follow-up questions for intro message. */
+function getIntroFollowUps(primaryFocus) {
+  const byFocus = {
+    'improve-seo-ppc': ['Where can I find keyword ideas?', 'What should I explore first?'],
+    'genai-visibility': ['Where can I see Gen AI traffic?', 'What should I explore first?'],
+  };
+  return byFocus[primaryFocus] || ['Where can I find traffic data?', 'What should I explore first?'];
+}
+
+// ── Onboarding Overlay Logic ──
+
+function obGoToStep1() {
+  const n = document.getElementById('obNameInput').value.trim();
+  if (!n) return;
+  userName = n;
+  document.getElementById('obStep0').classList.add('hidden');
+  document.getElementById('obStep1').classList.remove('hidden');
+  document.getElementById('obStep1Heading').textContent = `Great to meet you, ${userName}! What would you like to focus on?`;
+}
+
+function obSelectPrimary(el) {
+  document.querySelectorAll('#obStep1 .ob-option').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  quizState.primaryFocus = el.dataset.value;
+  document.getElementById('obStep1Next').disabled = false;
+}
+
+function obGoToStep2() {
+  if (!quizState.primaryFocus) return;
+  if (quizState.primaryFocus === 'genai-visibility') { obFinish(); return; }
+  document.getElementById('obStep1').classList.add('hidden');
+  document.getElementById('obStep2').classList.remove('hidden');
+  const container = document.getElementById('obSubFocusOptions');
+  container.innerHTML = '';
+  (SUB_FOCUSES[quizState.primaryFocus] || []).forEach(opt => {
+    const card = document.createElement('div');
+    card.className = 'ob-option'; card.dataset.value = opt.id;
+    card.onclick = () => { card.classList.toggle('selected'); quizState.subFocuses = Array.from(document.querySelectorAll('#obSubFocusOptions .ob-option.selected')).map(c => c.dataset.value); };
+    card.innerHTML = `<div class="ob-option-icon"><span>${opt.icon}</span></div><div class="ob-option-text"><h3>${opt.label}</h3></div><div class="ob-check"></div>`;
+    container.appendChild(card);
+  });
+}
+
+function obGoBackToStep1() {
+  document.getElementById('obStep2').classList.add('hidden');
+  document.getElementById('obStep1').classList.remove('hidden');
+  quizState.subFocuses = [];
+}
+
+function obSkip() {
+  quizState = { primaryFocus: '', subFocuses: [] };
+  closeOverlay();
+}
+
+function obFinish() {
+  closeOverlay();
+}
+
+function closeOverlay() {
+  document.getElementById('onboardingOverlay').classList.add('done');
+}
+
+// ── Init: Load pages ──
+let pagesLoadPromise = null;
+async function ensurePagesLoaded() {
+  if (allPages.length) return;
+  if (!pagesLoadPromise) {
+    pagesLoadPromise = fetch('/api/pages').then(r => r.json()).then(d => {
+      allPages = d.pages || [];
+      allCategories = d.categories || [];
+      buildSidebar();
+    }).catch(e => { console.error('Failed to load pages:', e); });
+  }
+  return pagesLoadPromise;
+}
+
+async function init() {
+  document.getElementById('messages').addEventListener('click', function(e) {
+    const chip = e.target.closest('.page-chip');
+    if (chip && chip.dataset.pageId) navigateFromChat(chip.dataset.pageId);
+  });
+  await ensurePagesLoaded();
+}
+
+function buildSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const topCategories = allCategories.filter(c => !c.parentId).sort((a, b) => a.order - b.order);
+  let html = '';
+  for (const cat of topCategories) {
+    const subCats = allCategories.filter(c => c.parentId === cat.id).sort((a, b) => a.order - b.order);
+    const catIds = [cat.id, ...subCats.map(s => s.id)];
+    const pages = allPages.filter(p => catIds.includes(p.category));
+    if (!pages.length) continue;
+    html += `<div class="nav-group"><div class="nav-group-label" onclick="this.parentElement.classList.toggle('collapsed')">${cat.name} <span class="arrow">\u25BC</span></div><div class="nav-items">`;
+    for (const page of pages) html += `<a class="nav-item" data-id="${page.id}" onclick="navigateTo('${page.id}')">${page.name}</a>`;
+    html += `</div></div>`;
+  }
+  sidebar.innerHTML = html;
+}
+
+// ── Navigation ──
+async function navigateTo(pageId) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.querySelector(`.nav-item[data-id="${pageId}"]`);
+  if (navEl) navEl.classList.add('active');
+  currentPageId = pageId;
+  try {
+    const res = await fetch(`/api/pages/${pageId}`);
+    currentPageData = await res.json();
+    if (currentPageData.error) { console.error('Page not found:', pageId); return; }
+    renderPage(currentPageData);
+  } catch (e) { console.error('Failed to load page:', e); }
+}
+
+async function navigateFromChat(pageId) {
+  const valid = allPages.find(p => p.id === pageId);
+  if (!valid) { sendMessage(`Tell me about ${pageId.replace(/-/g, ' ')}`); return; }
+  await navigateTo(pageId);
+  sendMessage(`I just navigated to ${valid.name}. What can I learn here?`);
+}
+
+function renderPage(page) {
+  const domain = document.getElementById('domainInput').value || 'example.com';
+  const url = page.path.replace('{domain}', domain);
+  document.getElementById('breadcrumb').textContent = page.featureLocation;
+  const main = document.getElementById('mainContent');
+  let html = '';
+  html += `<div class="page-header-section"><h1>${page.name} <span class="page-type-badge ${page.pageType}">${page.pageType}</span></h1><div class="page-location">${page.featureLocation} &mdash; ${url}</div><div class="page-desc">${page.description}</div></div>`;
+  if (page.valueProposition?.length) { html += '<div class="info-pills">'; page.valueProposition.forEach(v => { html += `<span class="info-pill">${v}</span>`; }); html += '</div>'; }
+  if (page.sections?.length) { html += '<div class="section-grid">'; page.sections.forEach(s => { html += `<div class="section-card"><h3>${s.name}</h3><p>${s.description}</p><div class="chart-placeholder">${s.chartType ? s.chartType + ' chart' : 'Data visualization'}</div></div>`; }); html += '</div>'; }
+  if (page.metrics?.length) { html += '<table class="metrics-table"><thead><tr><th>Metric</th><th>Description</th><th>Value</th></tr></thead><tbody>'; page.metrics.forEach(m => { html += `<tr><td><strong>${m.name}</strong></td><td>${m.description}</td><td class="metric-value">${generateFakeValue(m)}</td></tr>`; }); html += '</tbody></table>'; }
+  if (page.tips?.length) { html += '<div class="tips-box"><h4>Tips</h4><ul>'; page.tips.forEach(t => { html += `<li>${t}</li>`; }); html += '</ul></div>'; }
+  if (page.filters?.length) { html += '<div style="margin-bottom:28px"><h4 style="font-size:13px;font-weight:700;margin-bottom:10px">Filters</h4><div class="info-pills">'; page.filters.forEach(f => { html += `<span class="info-pill">${f.name}: ${f.type}</span>`; }); html += '</div></div>'; }
+  if (page.relatedPagesResolved?.length) { html += '<div class="related-pages"><h4>Related Pages</h4><div class="related-grid">'; page.relatedPagesResolved.forEach(r => { html += `<div class="related-chip" onclick="navigateTo('${r.id}')" title="${r.reason}">${r.name}</div>`; }); html += '</div></div>'; }
+  if (page.categoryPages?.length) { html += '<div class="related-pages"><h4>Also in this section</h4><div class="related-grid">'; page.categoryPages.forEach(p => { html += `<div class="related-chip" onclick="navigateTo('${p.id}')" title="${p.description}">${p.name}</div>`; }); html += '</div></div>'; }
+  main.innerHTML = html;
+  main.scrollTop = 0;
+}
+
+function generateFakeValue(metric) {
+  const fmt = (metric.format || '').toLowerCase();
+  if (fmt.includes('percent') || metric.name.toLowerCase().includes('rate') || metric.name.toLowerCase().includes('share')) return (Math.random() * 60 + 5).toFixed(1) + '%';
+  if (fmt.includes('duration') || metric.name.toLowerCase().includes('duration')) return Math.floor(Math.random() * 8 + 1) + 'm ' + Math.floor(Math.random() * 59) + 's';
+  if (metric.name.toLowerCase().includes('rank')) return '#' + Math.floor(Math.random() * 5000 + 1);
+  if (metric.name.toLowerCase().includes('visit') || metric.name.toLowerCase().includes('traffic')) return (Math.random() * 50 + 0.5).toFixed(1) + 'M';
+  return (Math.random() * 1000 + 10).toFixed(0);
+}
+
+// ── Widget toggle + first-open intro ──
+function toggleWidget() {
+  const w = document.getElementById('chatWidget');
+  const l = document.getElementById('chatLauncher');
+  const isOpen = w.classList.toggle('open');
+  l.classList.toggle('open', isOpen);
+  if (isOpen && !botHasIntroduced) {
+    botHasIntroduced = true;
+    const displayName = userName || 'there';
+    const intro = `Hi ${displayName}! I'm your SimilarWeb assistant for anything you need. I can help you explore features, understand metrics, find the right pages, or answer questions about the platform. Just ask me anything!`;
+    ensurePagesLoaded().then(async () => {
+      let introPages = ['traffic-engagement', 'website-performance'];
+      if (quizState?.primaryFocus) {
+        try {
+          const params = new URLSearchParams({ primaryFocus: quizState.primaryFocus });
+          if (quizState.subFocuses?.length) params.set('subFocuses', quizState.subFocuses.join(','));
+          const r = await fetch(`/api/suggested-pages-for-quiz?${params}`);
+          if (r.ok) {
+            const data = await r.json();
+            const ids = data.pageIds || data.suggestedPages || [];
+            if (Array.isArray(ids) && ids.length) introPages = ids;
+          }
+        } catch (_) { /* use fallback */ }
+      }
+      introPages = allPages.length ? introPages.filter(id => allPages.some(p => p.id === id)) : introPages;
+      const followUps = getIntroFollowUps(quizState?.primaryFocus);
+      appendAgentMessage({ responseText: intro, suggestedPages: introPages, quickActions: [], followUpQuestions: followUps });
+    });
+  }
+  if (isOpen) document.getElementById('chatInput').focus();
+}
+
+// ── Chat Logic ──
+async function sendMessage(overrideText) {
+  const input = document.getElementById('chatInput');
+  const text = overrideText || input.value.trim();
+  if (!text) return;
+  if (!overrideText) input.value = '';
+  appendMessage('user', text);
+  setTyping(true);
+  document.getElementById('sendBtn').disabled = true;
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, sessionId, quiz: quizState, userName, currentPageId }),
+    });
+    const data = await res.json();
+    if (data.error) appendMessage('agent', `Sorry, something went wrong: ${data.error}`);
+    else await appendAgentMessage(data);
+  } catch { appendMessage('agent', "Sorry, I couldn't reach the server."); }
+  finally { setTyping(false); document.getElementById('sendBtn').disabled = false; input.focus(); }
+}
+
+function appendMessage(role, text) {
+  const c = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className = `msg ${role}`; d.textContent = text;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+
+async function appendAgentMessage(data) {
+  const rawPages = data.suggestedPages;
+  let pageIds = Array.isArray(rawPages) ? rawPages : (typeof rawPages === 'string' ? rawPages.split(/[,;]/).map(s => s.trim()).filter(Boolean) : []);
+  if (rawPages && typeof rawPages === 'object' && !Array.isArray(rawPages)) {
+    if (Array.isArray(rawPages.pages)) pageIds = rawPages.pages;
+    else if (Array.isArray(rawPages.ids)) pageIds = rawPages.ids;
+    else pageIds = Object.values(rawPages).flat().filter(x => typeof x === 'string');
+  }
+  pageIds = pageIds.map(p => (typeof p === 'object' && p?.id) ? p.id : String(p)).filter(Boolean);
+  if (pageIds.length && !allPages.length) await ensurePagesLoaded();
+
+  const c = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className = 'msg agent';
+  const rt = (data.responseText || '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  let h = `<div>${rt}</div>`;
+  if (pageIds.length && allPages.length) {
+    const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const validChips = pageIds
+      .map(p => {
+        const str = typeof p === 'string' ? p : (p?.id || p?.name || String(p));
+        const byId = allPages.find(x => x.id === str);
+        const byName = allPages.find(x => norm(x.name) === norm(str) || x.name.toLowerCase().includes(str.toLowerCase()));
+        const pg = byId || byName;
+        const id = pg ? pg.id : str.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+        if (!allPages.some(x => x.id === id) && !pg) return null;
+        const name = pg ? pg.name : (allPages.find(x => x.id === id)?.name || str.replace(/-/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase()));
+        return { id: pg ? pg.id : id, name };
+      })
+      .filter(Boolean);
+    if (validChips.length) {
+      h += '<div class="msg-section-label">Explore next</div><div class="suggested-pages">';
+      validChips.forEach(pg => {
+        const safeId = String(pg.id).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        h += `<span class="page-chip" data-page-id="${pg.id}">${pg.name}</span>`;
+      });
+      h += '</div>';
+    }
+  }
+  if (data.quickActions?.length) {
+    h += '<div class="quick-actions">';
+    data.quickActions.forEach(a => { h += `<button class="quick-action-btn" onclick="sendMessage('${a.label.replace(/'/g, "\\'")}')">${a.label}</button>`; });
+    h += '</div>';
+  }
+  if (data.followUpQuestions?.length) {
+    h += '<div class="msg-section-label">You might also ask</div><div class="follow-ups">';
+    data.followUpQuestions.forEach(q => { h += `<button class="follow-up-btn" onclick="sendMessage('${q.replace(/'/g, "\\'")}')">${q}</button>`; });
+    h += '</div>';
+  }
+  d.innerHTML = h; c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+
+function setTyping(on) {
+  document.getElementById('typing').classList.toggle('active', on);
+  if (on) { const c = document.getElementById('messages'); c.scrollTop = c.scrollHeight; }
+}
+
+init();
+</script>
+</body>
+</html>

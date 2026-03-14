@@ -1,0 +1,96 @@
+# Outgoing Traffic Page Definition
+id: outgoing-traffic
+name: Outgoing Traffic
+path: /website/{domain}/referral/outgoing-traffic
+category: referral-analysis
+featureLocation: Website Research > Website Analysis > Referral > Outgoing Traffic
+pageType: analysis
+
+description: |
+  Evaluate the referral traffic sent from the analyzed website to other domains via referral links.
+  See how your outgoing referral traffic compares to competitors.
+
+valueProposition:
+  - See how outgoing referral traffic stacks up against competitors
+  - Get breakdown of outgoing referral traffic insights over time
+  - Understand where your site sends traffic
+  - Analyze outgoing traffic by industry
+  - Track changes in outgoing traffic patterns
+
+useCases:
+  - Analyze affiliate program performance
+  - Understand partnership traffic distribution
+  - Compare outgoing referrals with competitors
+  - Identify where traffic is being sent
+  - Track outgoing traffic trends
+
+sections:
+  - id: outgoing-overview
+    title: Outgoing Traffic Overview
+    description: Overview of outgoing referral traffic
+    metrics:
+      - Total Outgoing Visits
+      - Total Outgoing Domains
+      - Visits by Industry Breakdown
+
+  - id: outgoing-domains
+    title: Outgoing Domains
+    description: List of domains receiving outgoing referral traffic
+    metrics:
+      - Domain
+      - Industry Category
+      - Global Rank
+      - Traffic Share
+      - Percentage Change
+
+  - id: traffic-share-over-time
+    title: Outgoing Traffic Share Over Time
+    description: Monthly breakdown of outgoing traffic share per domain
+    chartType: line
+
+filters:
+  - id: website
+    label: Website
+    type: select
+
+  - id: industry
+    label: Industry
+    type: select
+
+actions:
+  - Compare with competitors
+  - Filter by industry
+  - View monthly breakdown
+  - Export data
+
+tips:
+  - Click the arrow next to each website to see a monthly breakdown of outgoing traffic
+  - Social traffic is not included in Outgoing Traffic as it's attributed to the Social channel
+  - Use this to understand where your competitors are sending traffic
+
+faqs:
+  - question: Why can't I see Outgoing Traffic for Social networks?
+    answer: Social traffic is attributed to the Social channel, so it's not included in Outgoing Traffic.
+  - question: Why do I see an increase in percent change but a decrease in traffic share?
+    answer: The change metric measures percent change in volume, not change in traffic share. Volume can increase while share decreases.
+
+relatedPages:
+  - id: traffic-engagement
+    relationship: overview
+    description: Core traffic and engagement metrics overview
+  - id: incoming-traffic
+    relationship: opposite
+    description: Analyze incoming referral traffic
+  - id: marketing-channels
+    relationship: overview
+    description: Overview of all traffic channels
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - outgoing traffic
+  - referral traffic
+  - outbound links
+  - traffic destination
+  - affiliate traffic

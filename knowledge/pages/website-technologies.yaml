@@ -1,0 +1,107 @@
+# Website Technologies Page Definition
+id: website-technologies
+name: Website Technologies
+path: /website/{domain}/technologies
+category: website-analysis
+featureLocation: Website Research > Website Analysis > Website Structure > Website Technologies
+pageType: analysis
+
+description: |
+  Discover the technologies, web plugins, and other integrations that have been installed 
+  and/or removed on a website.
+
+valueProposition:
+  - Find out who is working with competitor or complementary technology
+  - See what technologies your competitors are using
+  - Identify timing for targeting (e.g., during POC or before renewal)
+  - Understand how to pitch against competitors
+  - Determine if a prospect needs your solution
+
+useCases:
+  - Competitive technology analysis
+  - Sales intelligence and timing
+  - Identify technology trends
+  - Understand competitor tech stack
+  - Find integration opportunities
+
+sections:
+  - id: technologies-table
+    title: Installed Technologies
+    description: List of technologies installed on the website
+    metrics:
+      - Technology Name
+      - Tech Category
+      - Free/Paid Status
+      - Installation Status
+      - Working Period
+      - Removal Date
+
+filters:
+  - id: techCategories
+    label: Tech Categories
+    type: multiSelect
+    description: Filter by technology industry
+
+  - id: subdomains
+    label: Subdomains
+    type: toggle
+    description: Include or exclude subdomains
+
+  - id: installStatus
+    label: Installation Status
+    type: select
+    options:
+      - label: All
+        value: all
+      - label: Installed
+        value: installed
+      - label: Removed
+        value: removed
+
+metrics:
+  - id: status
+    name: Status
+    description: Whether technology is currently installed or was removed
+    dataType: status
+
+  - id: working-period
+    name: Working Period
+    description: How long technology has been installed (days, months, years)
+    dataType: duration
+
+  - id: removed-date
+    name: Removed Date
+    description: When the technology was removed (if applicable)
+    dataType: date
+
+actions:
+  - Filter by category
+  - Toggle subdomain inclusion
+  - Filter by installation status
+  - Export data
+
+tips:
+  - Check if a prospect just installed competitor tech - they may be in POC stage
+  - Tech installed for 10+ months may indicate upcoming renewal - good time to target
+  - If competitor removed a solution without replacement, they may not need it
+  - Hover over Status column to see all subdomains where tech is installed/removed
+
+relatedPages:
+  - id: website-content
+    relationship: complementary
+    description: Website content structure
+  - id: website-performance
+    relationship: overview
+    description: Overall website performance
+
+requiredClaims:
+  - website_analysis
+  - technographics
+
+keywords:
+  - website technologies
+  - tech stack
+  - web plugins
+  - integrations
+  - technographics
+  - competitor technology

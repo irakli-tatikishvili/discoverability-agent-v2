@@ -1,0 +1,92 @@
+# Website Rankings Page Definition
+id: website-rankings
+name: Website Rankings
+path: /markets/website-rankings
+category: market-analysis
+featureLocation: Website Research > Website Rankings
+pageType: analysis
+
+description: |
+  View the top-performing websites across Marketing Channels including Search (organic and paid), 
+  Social, Display, Referral, Direct, and Email.
+
+valueProposition:
+  - See industry leaders by marketing channel
+  - Plan and prioritize marketing resources
+  - Analyze leading channels generating traffic for industry leaders
+  - Discover top performers in each traffic source
+  - Benchmark against best-in-class websites
+
+useCases:
+  - Identify industry leaders
+  - Benchmark against top performers
+  - Discover top sites by channel
+  - Plan marketing strategy
+  - Research market leaders
+
+sections:
+  - id: rankings-table
+    title: Website Rankings
+    description: Top sites by traffic share from each marketing channel
+    metrics:
+      - Domain
+      - Global Rank
+      - Country Rank
+      - Last Month Visits
+      - Traffic Share
+
+filters:
+  - id: channel
+    label: Marketing Channel
+    type: select
+    options:
+      - Search (Organic)
+      - Search (Paid)
+      - Social
+      - Display
+      - Referral
+      - Direct
+      - Email
+      - All Traffic
+
+  - id: websiteType
+    label: Website Type
+    type: select
+    options:
+      - All
+      - Transactional
+      - Content Publishing
+      - Other
+
+  - id: industry
+    label: Industry
+    type: select
+
+actions:
+  - Filter by channel
+  - Filter by website type
+  - View site details on hover
+  - Export data
+
+tips:
+  - Hover over domain names for quick overview including rank and visits
+  - For Search Leaders, toggle between Paid and Organic views
+  - Use this to identify which competitors to analyze further
+
+relatedPages:
+  - id: marketing-channels
+    relationship: deeper-analysis
+    description: Detailed channel analysis for specific sites
+  - id: website-performance
+    relationship: deeper-analysis
+    description: Performance details for individual sites
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - website rankings
+  - top websites
+  - industry leaders
+  - traffic leaders
+  - channel rankings

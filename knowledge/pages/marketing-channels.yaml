@@ -1,0 +1,204 @@
+# Marketing Channels Page Definition
+id: marketing-channels
+name: Marketing Channels
+path: /website/{domain}/marketing-channels
+category: traffic-analysis
+featureLocation: Website Research > Website Analysis > Marketing Channels
+pageType: analysis
+
+description: |
+  Think of Marketing Channels as the sources of traffic. This report provides valuable insights 
+  around where a website's traffic is coming from, helping you discover which channels are 
+  successfully driving users to your site and your competitors.
+
+valueProposition:
+  - Evaluate digital performance by analyzing traffic volume and engagement across channels
+  - Showcase opportunities to grow traffic share across competitive set
+  - Find where competitors are reliant on for traffic
+  - Plan and prioritize marketing resources based on industry leaders
+  - Get overview of brand awareness via direct and organic sources
+  - Discover modern traffic sources including GenAI, Paid and Organic Social
+
+useCases:
+  - Competitive traffic analysis
+  - Marketing channel optimization
+  - Budget allocation planning
+  - Identify competitor strategies
+  - Track channel performance trends
+  - Benchmark against industry
+
+sections:
+  - id: channels-overview
+    title: Marketing Channels Overview
+    description: Distribution of traffic across all marketing channels
+    chartType: bar
+    channels:
+      - Direct
+      - Email
+      - Referrals
+      - Organic Social
+      - Paid Social
+      - Organic Search
+      - Paid Search
+      - Display Ads
+      - GenAI
+
+  - id: growth-drivers
+    title: Growth Drivers
+    description: Year-over-year change in visits by channel
+    chartType: heatmap
+    metrics:
+      - Actual Visit Change
+      - Total Change
+
+  - id: marketing-focus
+    title: Marketing Focus Changes
+    description: Year-over-year percentage change by channel
+    chartType: heatmap
+    metrics:
+      - Percentage Change
+      - Efficiency Indicator
+
+  - id: channel-traffic
+    title: Channel Traffic Insights
+    description: Quality of visitor traffic per channel with engagement metrics
+    metrics:
+      - Traffic Share
+      - Average Visit Duration
+      - Pages per Visit
+      - Bounce Rate
+
+  - id: marketing-trends
+    title: Marketing Channel Trends
+    description: Insights on significant fluctuations and traffic trends
+    metrics:
+      - Channel Movement Insights
+      - MoM Changes > 10%
+      - Consecutive Growth/Decline Trends
+
+  - id: traffic-sources
+    title: Traffic Sources
+    description: Distinct sources driving traffic with detailed metrics
+    metrics:
+      - Traffic Source
+      - Source Type
+      - Group Traffic Share
+      - Group Share Split
+      - Category
+
+channelDefinitions:
+  - id: direct
+    name: Direct
+    description: Traffic from users typing URL directly, bookmarks, or links outside web browser
+
+  - id: email
+    name: Email
+    description: Traffic from web-based email clients like gmail.com or outlook.com
+
+  - id: referrals
+    name: Referrals
+    description: Traffic from another site including affiliates, links, content partners, media buying
+
+  - id: organic-social
+    name: Organic Social
+    description: Non-paid traffic from social media sites like Facebook or Reddit
+
+  - id: paid-social
+    name: Paid Social
+    description: Paid traffic from social media advertising
+
+  - id: organic-search
+    name: Organic Search
+    description: Traffic from non-sponsored search results (SEO)
+
+  - id: paid-search
+    name: Paid Search
+    description: Traffic from sponsored search results, PLAs, local service ads
+
+  - id: display-ads
+    name: Display Ads
+    description: Traffic from clicking display banners on other domains
+
+  - id: genai
+    name: GenAI
+    description: Traffic and clicks from AI domains like ChatGPT, Gemini
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Country
+    type: select
+
+  - id: webSource
+    label: Traffic/Device Source
+    type: select
+    options:
+      - label: All Traffic
+        value: total
+      - label: Desktop
+        value: desktop
+      - label: Mobile Web
+        value: mobile
+
+  - id: periodComparison
+    label: Period Comparison
+    type: select
+    options:
+      - Month over Month
+      - Quarter over Quarter
+      - Year over Year
+      - Custom Periods
+
+actions:
+  - Compare up to 4 competitors
+  - Period over period analysis
+  - Drill down into each channel
+  - Export data
+  - View engagement metrics
+
+tips:
+  - Look at percentages alongside absolute numbers to understand channel proportion
+  - Hover over traffic sources to see desktop/mobile web ratio
+  - Insights are visible for channels exceeding 50,000 visits
+  - Use Period over Period to identify where competitors are investing more
+
+faqs:
+  - question: Why does Similarweb show higher direct traffic than my direct measurement?
+    answer: Direct traffic serves as a bucket for referrals we cannot identify. Attribution is based on what the browser detects.
+  - question: Can I analyze Yahoo and Yahoo Japan as distinct sources?
+    answer: Yes, since April 2023 yahoo.com and yahoo.co.jp are considered separate traffic sources.
+
+relatedPages:
+  - id: traffic-engagement
+    relationship: overview
+    description: Core traffic and engagement metrics overview
+  - id: website-performance
+    relationship: overview
+    description: Overall website performance
+  - id: incoming-traffic
+    relationship: deeper-analysis
+    description: Detailed referral analysis
+  - id: social-overview
+    relationship: deeper-analysis
+    description: Social traffic breakdown
+  - id: search-overview
+    relationship: deeper-analysis
+    description: Search traffic analysis
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - marketing channels
+  - traffic sources
+  - acquisition channels
+  - direct traffic
+  - referral traffic
+  - organic search
+  - paid search
+  - social traffic
+  - display ads
+  - GenAI traffic

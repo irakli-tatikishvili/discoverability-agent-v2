@@ -1,0 +1,160 @@
+# SimilarWeb Platform Categories
+# Hierarchical organization of features
+
+categories:
+  # Top-level categories
+  - id: website-analysis
+    name: "Website Analysis"
+    description: "Analyze any website's traffic, audience, and performance"
+    icon: "globe"
+    order: 1
+
+  - id: market-analysis
+    name: "Market Analysis"
+    description: "Analyze markets, industries, and competitive landscapes"
+    icon: "trending-up"
+    order: 2
+
+  - id: keyword-research
+    name: "Keyword Research"
+    description: "Research and discover keywords for SEO and PPC"
+    icon: "search"
+    order: 3
+
+  - id: search-tracking
+    name: "Search Tracking"
+    description: "Track rankings and search performance over time"
+    icon: "target"
+    order: 4
+
+  - id: segment-analysis
+    name: "Segment Analysis"
+    description: "Analyze specific portions of websites using segments"
+    icon: "layers"
+    order: 5
+
+  - id: gen-ai-analysis
+    name: "Gen AI Intelligence"
+    description: "Track and analyze AI chatbot traffic and brand visibility"
+    icon: "cpu"
+    order: 6
+
+  - id: backlinks-analysis
+    name: "Backlinks Analytics"
+    description: "Analyze backlink profiles and referring domains"
+    icon: "link"
+    order: 7
+
+  - id: advertising-analysis
+    name: "Ad Intelligence"
+    description: "Analyze display advertising strategies and creatives"
+    icon: "ad"
+    order: 8
+
+  - id: conversion-analysis
+    name: "Conversion Analysis"
+    description: "Analyze conversion funnels and optimization"
+    icon: "funnel"
+    order: 9
+
+  # Sub-categories under Website Analysis
+  - id: traffic-analysis
+    name: "Traffic Analysis"
+    description: "Understand website traffic volume and trends"
+    parentId: website-analysis
+    icon: "trending-up"
+    order: 1
+
+  - id: referral-analysis
+    name: "Referral Analysis"
+    description: "Analyze incoming and outgoing referral traffic"
+    parentId: website-analysis
+    icon: "link"
+    order: 2
+
+  - id: search-analysis
+    name: "Search Traffic Analysis"
+    description: "Analyze organic and paid search performance"
+    parentId: website-analysis
+    icon: "search"
+    order: 3
+
+  - id: audience-analysis
+    name: "Audience Analysis"
+    description: "Understand website audience demographics and interests"
+    parentId: website-analysis
+    icon: "users"
+    order: 4
+
+  - id: social-analysis
+    name: "Social Media Analysis"
+    description: "Analyze social media traffic and performance"
+    parentId: website-analysis
+    icon: "share"
+    order: 5
+
+  - id: content-analysis
+    name: "Content Analysis"
+    description: "Analyze popular pages and content performance"
+    parentId: website-analysis
+    icon: "file-text"
+    order: 6
+
+  # Sub-categories under Market Analysis
+  - id: market-overview
+    name: "Market Overview"
+    description: "Overview of market size and dynamics"
+    parentId: market-analysis
+    icon: "pie-chart"
+    order: 1
+
+  - id: market-players
+    name: "Market Players"
+    description: "Analyze key players in a market"
+    parentId: market-analysis
+    icon: "users"
+    order: 2
+
+  - id: custom-industries
+    name: "Custom Industries"
+    description: "Create and analyze custom market definitions"
+    parentId: market-analysis
+    icon: "layers"
+    order: 3
+
+  # Sub-categories under Keyword Research
+  - id: keyword-discovery
+    name: "Keyword Discovery"
+    description: "Find new keyword opportunities"
+    parentId: keyword-research
+    icon: "lightbulb"
+    order: 1
+
+  - id: demand-tracking
+    name: "Demand Analysis"
+    description: "Track and understand consumer demand trends"
+    parentId: keyword-research
+    icon: "activity"
+    order: 2
+
+  - id: keyword-competition
+    name: "Keyword Competition"
+    description: "Analyze keyword competitive landscape"
+    parentId: keyword-research
+    icon: "target"
+    order: 3
+
+  # Sub-categories under Search Tracking
+  - id: rank-tracking
+    name: "Rank Tracking"
+    description: "Monitor daily ranking positions"
+    parentId: search-tracking
+    icon: "trending-up"
+    order: 1
+
+  - id: ad-tracking
+    name: "Ad Tracking"
+    description: "Track paid search ad performance"
+    parentId: search-tracking
+    icon: "dollar-sign"
+    order: 2

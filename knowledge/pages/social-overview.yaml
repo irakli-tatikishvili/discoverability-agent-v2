@@ -1,0 +1,106 @@
+# Social Overview Page Definition
+id: social-overview
+name: Social Overview
+path: /website/{domain}/social/overview
+category: social-analysis
+featureLocation: Website Research > Website Analysis > Social > Overview
+pageType: analysis
+
+description: |
+  View a breakdown of social traffic to a website including social traffic over time 
+  and distribution of traffic across different social media platforms.
+
+valueProposition:
+  - Analyze traffic sent from social media platforms to websites
+  - Identify where competitors focus their social efforts
+  - Understand which social networks effectively drive traffic
+  - Compare social strategy across competitive set
+  - Identify social networks to invest more in
+
+useCases:
+  - Social media strategy analysis
+  - Competitive social benchmarking
+  - Identify high-performing social channels
+  - Track social traffic trends
+  - Plan social media investment
+
+sections:
+  - id: social-traffic-over-time
+    title: Social Traffic Over Time
+    description: Social traffic trends to the analyzed sites over time
+    chartType: line
+
+  - id: social-distribution
+    title: Social Network Distribution
+    description: Distribution of social traffic from top social networks
+    metrics:
+      - Social Network
+      - Traffic Share
+      - Change (MoM)
+
+metrics:
+  - id: social-visits
+    name: Social Visits
+    description: Sum of site visits from social sources over selected period
+    dataType: number
+
+  - id: traffic-share
+    name: Traffic Share
+    description: Percentage of traffic from each social network
+    dataType: percentage
+
+  - id: change
+    name: Change
+    description: Month-over-month change in traffic share
+    dataType: percentage
+
+filters:
+  - id: socialSource
+    label: Social Source
+    type: select
+    description: Filter by specific social platform
+    options:
+      - All Sources
+      - YouTube
+      - Twitter
+      - Facebook
+      - Reddit
+      - LinkedIn
+      - Others
+
+actions:
+  - Compare up to 5 sites
+  - Filter by social platform
+  - Export data
+  - View trends over time
+
+tips:
+  - Use the All Sources dropdown to filter by specific social platform
+  - Compare with competitors to see side-by-side social strategy
+  - The "social" source indicates traffic we couldn't identify with high confidence
+
+faqs:
+  - question: Why do I see non-social sites when analyzing social traffic?
+    answer: Non-social websites can appear due to indirect social referrals, including comments widgets, social feeds incorporated in regular domains, API integrations, and social links in emails.
+  - question: What does it mean when I see "social" as a source?
+    answer: The "social" source is a default classification when we don't have high confidence in the traffic origin. "Others" refers to identified traffic not listed on our platform.
+
+relatedPages:
+  - id: marketing-channels
+    relationship: overview
+    description: All marketing channel analysis
+  - id: incoming-traffic
+    relationship: complementary
+    description: Referral traffic analysis
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - social media
+  - social traffic
+  - Facebook traffic
+  - Twitter traffic
+  - YouTube traffic
+  - Reddit traffic
+  - social strategy

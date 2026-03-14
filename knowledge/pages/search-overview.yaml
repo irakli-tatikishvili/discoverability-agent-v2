@@ -1,0 +1,158 @@
+# Search Overview Page Definition
+id: search-overview
+name: Search Overview
+path: /website/{domain}/search/overview
+category: search-analysis
+featureLocation: Website Research > Website Analysis > Search > Overview
+pageType: dashboard
+
+description: |
+  Understand the quantity and quality of search traffic to any analyzed website. View comprehensive 
+  breakdowns of organic, paid, branded and non-branded traffic, PPC Spend and cost per visit 
+  all in one place to better understand your competitors' search tactics.
+
+valueProposition:
+  - Unified search performance view with organic and paid data together
+  - Easily review top KPIs and analyze year-over-year search performance
+  - Identify opportunities and find the source of performance changes
+  - Understand and benchmark competitor search strategy faster
+  - Comprehensive, easy-to-digest summary of search performance
+
+useCases:
+  - Analyze competitor search strategy
+  - Identify search traffic opportunities
+  - Benchmark organic vs paid performance
+  - Track PPC spend and efficiency
+  - Find keyword opportunities and wins
+
+userPersonas:
+  - SEO/PPC Managers and Teams
+  - Head of E-commerce
+  - CMO or Marketing Manager
+  - Head of Digital Marketing / Demand Gen
+
+sections:
+  - id: overview-bar
+    title: Overview Insights
+    description: Key search performance metrics snapshot
+    metrics:
+      - Search Traffic
+      - Organic Traffic
+      - Paid Traffic
+      - PPC Spend
+      - Rank 1-3
+      - Branded Traffic Share
+
+  - id: search-performance
+    title: Search Performance Over Time
+    description: Trend in traffic, PPC spend, and cost per visit over time
+    chartType: line
+    metrics:
+      - Search Traffic (Branded vs Non-branded)
+      - Organic vs Paid Traffic
+      - PPC Spend
+      - Cost per Visit
+
+  - id: top-paid-landing-pages
+    title: Top Paid Landing Pages
+    description: Best performing paid landing pages
+    metrics:
+      - Landing Page URL
+      - Clicks
+      - Traffic Share
+      - MoM Change
+      - Estimated Spend
+
+  - id: top-non-branded-keywords
+    title: Top Non-Branded Keywords
+    description: Non-branded keywords by category
+    categories:
+      - Wins: Keywords where you have 100% traffic share
+      - Opportunities: Keywords with 1-20% traffic share
+      - Highly Competitive: Keywords with 20-60% traffic share
+
+  - id: search-competitors
+    title: Search Competitors
+    description: Top search competitors with overlap scores
+    metrics:
+      - Search Overlap Score (1-100)
+      - Rising Competitors
+      - New Competitors
+
+metrics:
+  - id: search-traffic
+    name: Search Traffic
+    description: Combined organic and paid visits with YoY comparison
+    dataType: number
+
+  - id: ppc-spend
+    name: PPC Spend
+    description: Estimation of spend on paid search ads
+    dataType: currency
+
+  - id: cost-per-visit
+    name: Cost per Visit
+    description: Average cost per paid visit
+    dataType: currency
+
+  - id: rank-1-3
+    name: Rank 1-3
+    description: Keywords ranking in top 3 SERP positions
+    dataType: number
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Geographic Region
+    type: select
+
+  - id: currency
+    label: Currency
+    type: select
+    options: [USD, GBP, EUR, JPY, AUD]
+
+actions:
+  - Compare up to 4 competitors
+  - Toggle between Organic and Paid competitors
+  - Convert currency on graphs
+  - View competitor comparison mode
+
+tips:
+  - Focus on branded keywords if strengthening existing customer base
+  - Focus on non-branded keywords to broaden your audience
+  - Use the Wins tab to see where you're dominating the competition
+  - Check Rising/New Competitors to spot emerging threats
+
+faqs:
+  - question: Does the '1-3 pages rank' have desktop-only data?
+    answer: Yes, this metric is currently only for desktop use.
+  - question: How much history do we have on Paid Search insights?
+    answer: Paid Search data is available from January 2023, 12 months at a time.
+
+relatedPages:
+  - id: traffic-engagement
+    relationship: overview
+    description: Core traffic and engagement metrics
+  - id: marketing-channels
+    relationship: overview
+    description: Overall traffic channel distribution
+  - id: keyword-generator
+    relationship: deeper-analysis
+    description: Generate new keyword ideas
+
+requiredClaims:
+  - website_analysis
+  - search_analysis
+
+keywords:
+  - search overview
+  - organic traffic
+  - paid traffic
+  - PPC spend
+  - search strategy
+  - keyword ranking
+  - SEO
+  - SEM

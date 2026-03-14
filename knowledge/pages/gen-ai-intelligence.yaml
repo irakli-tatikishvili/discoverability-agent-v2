@@ -1,0 +1,114 @@
+# Gen AI Intelligence Page Definition
+id: gen-ai-intelligence
+name: Gen AI Intelligence
+path: /gen-ai-intelligence
+category: gen-ai-analysis
+featureLocation: Web Intelligence > Gen AI Intelligence
+pageType: analysis
+
+description: |
+  Track and analyze traffic from AI chatbots and understand how generative AI is impacting 
+  your web traffic. Monitor AI brand visibility, citations, and prompt analysis.
+
+valueProposition:
+  - Track traffic from AI chatbots like ChatGPT, Gemini, Perplexity
+  - Understand AI's impact on your web traffic
+  - Monitor brand visibility in AI responses
+  - Analyze citations from AI tools
+  - Understand what prompts drive traffic to your site
+
+useCases:
+  - Monitor AI chatbot traffic trends
+  - Track brand mentions in AI responses
+  - Analyze citation performance in AI tools
+  - Understand prompt patterns driving traffic
+  - Benchmark AI visibility against competitors
+
+sections:
+  - id: ai-chatbot-traffic
+    title: AI Chatbot Traffic
+    description: Traffic from AI domains (ChatGPT, Gemini, Perplexity)
+    metrics:
+      - Total AI Traffic
+      - Traffic by AI Platform
+      - Traffic Trends
+
+  - id: brand-visibility
+    title: AI Brand Visibility
+    description: How often your brand appears in AI responses
+    metrics:
+      - Brand Mention Frequency
+      - Sentiment Analysis
+      - Competitive Comparison
+
+  - id: citation-analysis
+    title: Citation Analysis
+    description: Track when AI tools cite your content
+    metrics:
+      - Citation Count
+      - Citation Sources
+      - Citation Trends
+
+  - id: prompt-analysis
+    title: Prompt Analysis
+    description: Understand prompts that lead to your site
+    metrics:
+      - Prompt Patterns
+      - Topic Clusters
+      - Traffic from Prompts
+
+filters:
+  - id: aiPlatform
+    label: AI Platform
+    type: multiSelect
+    options:
+      - ChatGPT
+      - Gemini
+      - Perplexity
+      - Google AI Mode
+
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: sentiment
+    label: Sentiment
+    type: select
+    options:
+      - Positive
+      - Neutral
+      - Negative
+      - Not Mentioned
+
+actions:
+  - Track AI traffic trends
+  - Monitor brand visibility
+  - Analyze citations
+  - Export data
+
+tips:
+  - GenAI traffic is part of the new Marketing Channels data set
+  - Monitor AI brand visibility to understand your presence in AI responses
+  - Use Citation Analysis to track content performance in AI tools
+  - Prompt Analysis helps understand user intent when reaching your site via AI
+
+relatedPages:
+  - id: marketing-channels
+    relationship: overview
+    description: See GenAI as part of overall traffic channels
+  - id: website-performance
+    relationship: overview
+    description: Overall website performance
+
+requiredClaims:
+  - gen_ai_intelligence
+
+keywords:
+  - gen AI
+  - AI traffic
+  - ChatGPT traffic
+  - AI brand visibility
+  - citation analysis
+  - prompt analysis
+  - AI chatbot
+  - generative AI

@@ -1,0 +1,87 @@
+# Custom Industry Page Definition
+id: custom-industry
+name: Create a Custom Industry
+path: /market-research/market-builder
+category: market-analysis
+featureLocation: Market Research > Market Analysis > Custom Industry Builder
+pageType: tool
+
+description: |
+  Create custom industries by grouping websites and segments to analyze personalized views 
+  of your market. Build tailored markets for more relevant competitive intelligence.
+
+valueProposition:
+  - Create personalized market views
+  - Combine websites and segments into custom industries
+  - Get more relevant competitive intelligence
+  - Track markets that match your business definition
+  - Compare custom industries over time
+
+useCases:
+  - Define markets that match your business
+  - Group niche competitors together
+  - Create sub-industry segments
+  - Track custom competitive sets
+  - Build industry benchmarks
+
+sections:
+  - id: industry-builder
+    title: Custom Industry Builder
+    description: Build custom industries from websites and segments
+    features:
+      - Add individual websites
+      - Include website segments
+      - Combine predefined segments
+      - Name and save industries
+
+  - id: manage-industries
+    title: Manage Custom Industries
+    description: View and edit your custom industries
+    features:
+      - Edit industry composition
+      - Share with team members
+      - Track changes over time
+
+filters:
+  - id: websiteSearch
+    label: Search Websites
+    type: search
+
+  - id: segmentSearch
+    label: Search Segments
+    type: search
+
+actions:
+  - Add websites
+  - Add segments
+  - Save industry
+  - Share with team
+  - Export industry definition
+
+tips:
+  - Combine predefined segments with your own custom segments
+  - Group websites and segments that represent your true competitive landscape
+  - Use segments to focus on specific business lines across competitors
+  - Share custom industries with your team for consistent analysis
+
+relatedPages:
+  - id: market-overview
+    relationship: workflow
+    description: Analyze your custom industry
+  - id: website-segments
+    relationship: workflow
+    description: Create segments to add to industries
+  - id: market-players
+    relationship: workflow
+    description: View players in your custom industry
+
+requiredClaims:
+  - market_research
+  - custom_industry
+
+keywords:
+  - custom industry
+  - market builder
+  - industry definition
+  - competitive set
+  - market customization

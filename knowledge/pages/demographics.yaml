@@ -1,0 +1,103 @@
+# Demographics Page Definition
+id: demographics
+name: Demographics
+path: /website/{domain}/audience/demographics
+category: audience-analysis
+featureLocation: Website Research > Website Analysis > Audience > Demographics
+pageType: analysis
+
+description: |
+  Gain valuable insights into the audiences visiting your website, your competitors' websites, 
+  and your industry. Understand gender, age distribution, and traffic type.
+
+valueProposition:
+  - Optimize user acquisition with the right messaging and targeting
+  - Monitor market share across demographic segments
+  - Benchmark your audience against competitors and industry
+  - Customize content for your visitors and prospects
+  - Understand who your audience really is
+
+useCases:
+  - Audience demographic analysis
+  - Optimize marketing messaging
+  - Content personalization
+  - Competitive benchmarking by demographics
+  - Partnership and brand awareness targeting
+
+sections:
+  - id: traffic-engagement-by-audience
+    title: Traffic and Engagement by Audience
+    description: Specify a demo audience and understand competitive share
+    metrics:
+      - Competitive Share
+      - Audience Share per Site
+
+  - id: age-distribution
+    title: Age Distribution
+    description: Percent breakdown by six age groups starting at 18
+    metrics:
+      - Age 18-24
+      - Age 25-34
+      - Age 35-44
+      - Age 45-54
+      - Age 55-64
+      - Age 65+
+
+  - id: gender-distribution
+    title: Gender Distribution
+    description: Percent breakdown of visitors by gender
+    metrics:
+      - Male Percentage
+      - Female Percentage
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+
+  - id: country
+    label: Geographic Region
+    type: select
+
+  - id: webSource
+    label: Traffic Source
+    type: select
+    options:
+      - label: Desktop
+        value: desktop
+      - label: Mobile Web
+        value: mobile
+
+actions:
+  - Compare multiple websites
+  - Filter by specific demographic
+  - Export data
+  - Benchmark against industry
+
+tips:
+  - Use demographic data to optimize targeting in your marketing campaigns
+  - Compare your demographics with competitors to find underserved segments
+  - Customize content strategy based on your primary age groups
+
+relatedPages:
+  - id: audience-interests
+    relationship: complementary
+    description: Understand audience browsing behavior
+  - id: audience-overlap
+    relationship: complementary
+    description: Analyze shared audiences
+  - id: geography
+    relationship: complementary
+    description: Geographic traffic analysis
+
+requiredClaims:
+  - website_analysis
+  - audience_analysis
+
+keywords:
+  - demographics
+  - age distribution
+  - gender distribution
+  - audience analysis
+  - target audience
+  - user demographics

@@ -1,0 +1,178 @@
+# Keyword Generator Page Definition
+id: keyword-generator
+name: Keyword Generator
+path: /keyword-research/keyword-generator
+category: keyword-research
+featureLocation: Search Intelligence > Keyword Research > Keyword Generator
+pageType: tool
+
+description: |
+  Discover new and relevant keyword ideas to help outrank your competition and earn high-quality traffic.
+  Enter a seed word or phrase and get thousands of keyword suggestions sourced from Google, Amazon, and YouTube.
+
+valueProposition:
+  - Generate new and relevant keywords at scale
+  - Source keywords from Google, Amazon, and YouTube
+  - Discover phrase-match, trending, question, and related keywords
+  - Evaluate keywords using traffic and engagement insights
+  - Find keywords to maximize traffic and engagement
+  - Discover best keywords for paid search campaigns
+
+useCases:
+  - Content marketing keyword research
+  - SEO keyword strategy
+  - PPC campaign planning
+  - Find YouTube keywords and topics
+  - Source trending topics for content
+  - Discover blog post and article titles
+
+sections:
+  - id: phrase-match
+    title: Phrase Match Keywords
+    description: Search terms containing broad or exact match of seed keyword
+    example: 'car insurance -> car insurance near me, military car insurance'
+
+  - id: related-keywords
+    title: Related Keywords
+    description: Semantically similar terms matching user intent
+    example: 'car insurance -> quick online car quote, vehicle insurance quotes'
+
+  - id: trending-keywords
+    title: Trending Keywords
+    description: Keywords with significant traffic increase since previous month
+    note: Great for finding relevant long-tail keywords
+
+  - id: question-queries
+    title: Question Queries
+    description: Keyword suggestions in question format
+    example: 'NBA -> what does NBA mean, when are the NBA playoffs'
+
+googleMetrics:
+  - id: volume
+    name: Volume
+    description: Average monthly searches in Google (last 12 months)
+    dataType: number
+
+  - id: yearly-trend
+    name: Yearly Trend
+    description: Search volume over the last 12 months
+    dataType: trend
+
+  - id: zero-click
+    name: Zero-Click Queries
+    description: Percentage of searches ending without site visit
+    dataType: percentage
+
+  - id: keyword-difficulty
+    name: Keyword Difficulty
+    description: Score representing how difficult to rank (higher = harder)
+    dataType: score
+
+  - id: search-intent
+    name: Keyword Search Intent
+    description: Estimation of what searchers are trying to achieve
+    dataType: category
+
+  - id: cpc
+    name: CPC
+    description: Average price for a click in Google paid search (last 12 months)
+    dataType: currency
+
+  - id: organic-vs-paid
+    name: Organic vs Paid
+    description: Distribution of organic versus paid traffic
+    dataType: percentage
+
+  - id: leader
+    name: Leader
+    description: Domain receiving most search traffic from keyword
+    dataType: domain
+
+  - id: relevance-score
+    name: Relevance Score
+    description: How closely keyword relates to seed keyword (Related Keywords only)
+    dataType: score
+
+youtubeMetrics:
+  - id: volume-trend
+    name: Volume Trend
+    description: Desktop searches on YouTube over last 12 months
+    dataType: trend
+
+  - id: clicks
+    name: Clicks
+    description: Average monthly clicks on YouTube for keyword
+    dataType: number
+
+  - id: top-country
+    name: Top Country
+    description: Country with highest total search volume
+    dataType: country
+
+filters:
+  - id: source
+    label: Data Source
+    type: select
+    options:
+      - Google
+      - YouTube
+      - Amazon
+
+  - id: volume
+    label: Volume
+    type: range
+    description: Filter by any volume
+
+  - id: cpc
+    label: CPC
+    type: range
+    description: Filter by any CPC
+
+  - id: keywordType
+    label: Keyword Type
+    type: select
+    options:
+      - Phrase Match
+      - Related
+      - Trending
+      - Questions
+
+actions:
+  - Enter seed keyword
+  - Switch between Google/YouTube/Amazon results
+  - Filter by keyword type
+  - Export keyword list
+
+tips:
+  - Question Queries reveal clearer understanding of customer intent
+  - Trending Keywords give insight into what's most popular right now
+  - Use Related Keywords to find semantically similar terms you might miss
+  - Combine with competitive analysis to find keyword gaps
+
+faqs:
+  - question: How is Keyword Generator different from Google Keyword Planner?
+    answer: Similarweb mines actual searches from behavioral data, provides comprehensive coverage including leading domains, and calculates search volume with hybrid methodology.
+  - question: Where do the keywords come from?
+    answer: Keywords are sourced from anonymous behavioral data collected through our contributory network on Google, YouTube, and Amazon searches.
+
+relatedPages:
+  - id: search-overview
+    relationship: complementary
+    description: Analyze search performance
+  - id: website-keywords
+    relationship: workflow
+    description: See keywords driving traffic to specific sites
+
+requiredClaims:
+  - keyword_research
+
+keywords:
+  - keyword generator
+  - keyword research
+  - seed keyword
+  - phrase match
+  - related keywords
+  - trending keywords
+  - question queries
+  - SEO keywords
+  - PPC keywords

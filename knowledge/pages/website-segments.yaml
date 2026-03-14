@@ -1,0 +1,138 @@
+# Website Segment Analysis Page Definition
+id: website-segments
+name: Website Segment Analysis
+path: /segments/home
+category: segment-analysis
+featureLocation: Segment Analysis
+pageType: tool
+
+description: |
+  Analyze a specific portion of a website by building website segments. Slice and dice websites 
+  using groups of URLs that meet specific rules to analyze performance of a particular line of business, 
+  category, topic, or brand.
+
+valueProposition:
+  - Assess traffic related to specific content or topics
+  - Evaluate share of voice against competitors
+  - Measure business performance by analyzing specific pages or funnels
+  - Track market share of specific line-of-business, product, or brand
+  - Build true apples-to-apples benchmarks
+
+useCases:
+  - Analyze specific product categories across retailers
+  - Compare line-of-business performance vs competitors
+  - Track category or brand traffic over time
+  - Measure conversion funnel performance
+  - Evaluate share of voice for specific topics
+
+sections:
+  - id: segment-builder
+    title: Segment Builder
+    description: Create segments using URL rules
+    filterTypes:
+      - Folders: Analyze all pages within a website section
+      - Any variation of text: Surface pages containing queried phrase (partial match)
+      - Exact text: Include pages with exact word match (no punctuation)
+      - Exact URLs: Copy/paste specific URLs or upload CSV
+
+  - id: traffic-engagement
+    title: Traffic & Engagement
+    description: Segment performance metrics
+    metrics:
+      - Monthly Visits
+      - Unique Visitors
+      - Segment Share
+      - Bounce Rate
+      - Average Visit Duration
+      - Pages per Visit
+      - Pageviews
+
+  - id: marketing-channels
+    title: Marketing Channels
+    description: Traffic sources driving traffic to the segment
+
+  - id: geography
+    title: Geography
+    description: Traffic and engagement by region
+
+  - id: predefined-segments
+    title: Predefined Segments
+    description: 600+ ready-to-use segments built by data experts
+
+features:
+  - id: compare
+    name: Segment Comparisons
+    description: Compare up to 25 segments, benchmark segments vs whole websites
+
+  - id: custom-industry
+    name: Segments in Custom Industries
+    description: Add segments to custom industries via Custom Industry Builder
+
+metrics:
+  - id: bounce-rate
+    name: Bounce Rate
+    description: Percentage of visitors who view only one segment page and leave
+    dataType: percentage
+
+  - id: segment-share
+    name: Segment Share
+    description: Percentage of segment visits out of total website visits
+    dataType: percentage
+
+  - id: visit-duration
+    name: Avg. Visit Duration
+    description: Average time spent on segment-related pages during a visit
+    dataType: duration
+
+filters:
+  - id: timeframe
+    label: Time Period
+    type: dateRange
+    description: Up to 37 months of historical data
+
+  - id: country
+    label: Country
+    type: select
+
+actions:
+  - Create new segment
+  - Use predefined segments
+  - Compare up to 25 segments
+  - Add segments to custom industries
+  - Save comparisons
+  - Export data
+
+tips:
+  - A site must have 15K Worldwide visits in the previous month to be available for segmentation
+  - Use Folder Analysis to simplify segment creation process
+  - Predefined Segments are great for quick category benchmarking
+  - Save comparisons to quickly revisit analyses
+
+faqs:
+  - question: How many visits does a site need to be available for segmentation?
+    answer: A site must have 15K Worldwide visits (All Traffic) in the previous month.
+  - question: How much historical data is available?
+    answer: You can analyze up to 37 months of historical data. Compare mode supports varying amounts based on number of segments and country filters.
+
+relatedPages:
+  - id: website-content
+    relationship: workflow
+    description: Identify folders for segment creation
+  - id: market-overview
+    relationship: workflow
+    description: Use segments in market analysis
+  - id: custom-industry
+    relationship: workflow
+    description: Add segments to custom industries
+
+requiredClaims:
+  - segment_analysis
+
+keywords:
+  - website segments
+  - segment analysis
+  - URL segments
+  - folder analysis
+  - business line analysis
+  - category analysis
+  - predefined segments

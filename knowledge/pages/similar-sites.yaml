@@ -1,0 +1,79 @@
+# Similar Sites Page Definition
+id: similar-sites
+name: Similar Sites
+path: /website/{domain}/competitors/similar-sites
+category: website-analysis
+featureLocation: Website Research > Website Analysis > Similar Sites
+pageType: analysis
+
+description: |
+  Identify websites that are similar in content, audience, keywords, and referrals to discover 
+  your competitive landscape. Uncover up to 40 domains similar to the analyzed site.
+
+valueProposition:
+  - Discover your competitive landscape with similar websites
+  - Identify new competitors in your market
+  - Find sites similar in content, audience, keywords, and referrals
+  - Understand other players in your market to build successful digital marketing strategy
+
+useCases:
+  - Identify new competitors in your market
+  - Discover potential partnership opportunities
+  - Understand your competitive landscape
+  - Find sites with similar audience for targeting
+  - Market research and mapping
+
+sections:
+  - id: similar-sites-table
+    title: Similar Websites
+    description: List of up to 40 domains similar to the analyzed site
+    metrics:
+      - Domain
+      - Affinity Score
+      - Category
+      - Global Rank
+
+metrics:
+  - id: affinity-score
+    name: Affinity Score
+    description: Represents the similarity of the listed domain to the analyzed site based on content, audience, keywords, and referrals
+    dataType: score
+
+filters:
+  - id: industry
+    label: Industry
+    type: select
+    description: Filter similar sites by industry category
+
+actions:
+  - View up to 40 similar domains
+  - Filter by industry
+  - Compare up to 4 competitors
+
+tips:
+  - Similar Sites displays data for one site at a time - use the filter to change the analyzed site
+  - The Affinity Score represents how similar each domain is to your analyzed site
+  - Use this to identify competitors you may not have been aware of
+
+faqs:
+  - question: What does the Affinity Score mean?
+    answer: The Website Affinity Score represents the similarity of the listed domain to the analyzed site based on content, audience, keywords, and referrals.
+
+relatedPages:
+  - id: audience-overlap
+    relationship: complementary
+    description: Analyze shared audiences between sites
+  - id: audience-interests
+    relationship: complementary
+    description: Understand cross-browsing behavior
+
+requiredClaims:
+  - website_analysis
+
+keywords:
+  - similar sites
+  - competitors
+  - competitive landscape
+  - affinity
+  - market research
+  - competitor discovery
