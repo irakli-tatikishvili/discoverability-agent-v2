@@ -7,6 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 import * as yaml from 'yaml';
 import { PageDefinition, CategoryDefinition, RelatedPage } from './types.js';
 
@@ -224,12 +225,45 @@ export class KnowledgeBase {
 
 let instance: KnowledgeBase | null = null;
 
+/** Resolve knowledge paths. Tries multiple locations for Netlify (bundled) vs local. */
+function resolveKnowledgePaths(): { pagesDir: string; categoriesFile: string } {
+  const cwd = process.cwd();
+  const attempts: Array<{ pagesDir: string; categoriesFile: string }> = [];
+  try {
+    const dirname = path.dirname(fileURLToPath(import.meta.url));
+    attempts.push(
+      { pagesDir: path.join(dirname, 'pages'), categoriesFile: path.join(dirname, 'categories.yaml') },
+    );
+    attempts.push(
+      { pagesDir: path.join(cwd, 'knowledge', 'pages'), categoriesFile: path.join(cwd, 'knowledge', 'categories.yaml') },
+    );
+    const projectRoot = path.join(dirname, '..', '..');
+    attempts.push(
+      { pagesDir: path.join(projectRoot, 'knowledge', 'pages'), categoriesFile: path.join(projectRoot, 'knowledge', 'categories.yaml') },
+    );
+    attempts.push(
+      { pagesDir: path.join(dirname, '..', 'knowledge', 'pages'), categoriesFile: path.join(dirname, '..', 'knowledge', 'categories.yaml') },
+    );
+    attempts.push(
+      { pagesDir: path.join(dirname, 'pages'), categoriesFile: path.join(dirname, 'categories.yaml') },
+    );
+  } catch {
+    // ignore
+  }
+  for (const { pagesDir, categoriesFile } of attempts) {
+    try {
+      if (fs.existsSync(pagesDir) && fs.existsSync(categoriesFile)) return { pagesDir, categoriesFile };
+    } catch {
+      // continue
+    }
+  }
+  return attempts[0];
+}
+
 export async function getKnowledgeBase(): Promise<KnowledgeBase> {
   if (!instance) {
     instance = new KnowledgeBase();
-    const root = process.cwd();
-    const pagesDir = path.join(root, 'knowledge', 'pages');
-    const categoriesFile = path.join(root, 'knowledge', 'categories.yaml');
+    const { pagesDir, categoriesFile } = resolveKnowledgePaths();
     await instance.load(pagesDir, categoriesFile);
   }
   return instance;

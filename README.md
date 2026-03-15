@@ -44,6 +44,31 @@ npm start
 npm run dev
 ```
 
+## Netlify deployment
+
+The app is configured for Netlify with:
+
+- **Static assets** from `public/`
+- **API routes** (`/api/*`) handled by a serverless function
+
+### Deploy from Git
+
+1. Connect your GitHub repo to Netlify.
+2. Build settings (via `netlify.toml`):
+   - Build command: `npm run build`
+   - Publish directory: `public`
+   - Functions directory: `netlify/functions`
+3. Add environment variables in Netlify: **Site settings → Environment variables**
+   - `OPENAI_API_KEY` (required for chat)
+
+### Local preview
+
+```bash
+npm install -g netlify-cli
+netlify dev
+```
+
+
 ## LangSmith tracing
 
 To trace runs in [LangSmith](https://smith.langchain.com/):
@@ -65,6 +90,20 @@ similarweb-langsmith-agent/
 │   └── agent.ts       # LangChain chain
 └── README.md
 ```
+
+## Deploy to Netlify
+
+1. Push your code to GitHub (the repo is already connected).
+2. In [Netlify](https://app.netlify.com), click **Add new site** → **Import an existing project**.
+3. Connect your GitHub repo `irakli-tatikishvili/discoverability-agent-v2`.
+4. Netlify will use the existing `netlify.toml`:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `public`
+   - **Functions:** `netlify/functions`
+5. Set environment variables in Netlify (Site settings → Environment variables):
+   - `OPENAI_API_KEY` (required)
+   - Optional: `LANGCHAIN_TRACING_V2`, `LANGCHAIN_PROJECT`, `LANGCHAIN_API_KEY`
+6. Deploy. The app will be live at your Netlify URL.
 
 ## Integration
 
