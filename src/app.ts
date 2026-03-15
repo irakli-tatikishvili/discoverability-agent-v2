@@ -22,11 +22,13 @@ try {
 
 const app = express();
 
-// Netlify/serverless-http: body can be empty for POST. Parse explicitly for chat (path may be
-// /api/chat or /.netlify/functions/server when proxied).
+// Netlify/serverless-http: body can be empty for POST. Request transform in netlify/functions/server.js
+// may pre-parse event.body into req.body. If so, preserve it (don't overwrite with express.raw).
 app.use((req, res, next) => {
   const isChat = req.method === 'POST' && (req.path === '/api/chat' || req.path?.endsWith('/server'));
   if (isChat) {
+    // Transform already set req.body? Use it (don't run express.raw which overwrites).
+    if (req.body && typeof req.body === 'object' && 'message' in req.body) return next();
     return express.raw({ type: 'application/json', limit: '100kb' })(req, res, (err: unknown) => {
       if (err) return next(err);
       try {
@@ -173,7 +175,17 @@ app.get('/api/pages/:id', async (req, res) => {
 
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message, sessionId, quiz, userName, currentPageId } = req.body as {
+    let body = req.body as Record<string, unknown> | undefined;
+    if (!body?.message && (req as { _netlifyEvent?: { body?: string } })._netlifyEvent?.body) {
+      try {
+        const raw = (req as unknown as { _netlifyEvent: { body: string; isBase64Encoded?: boolean } })._netlifyEvent;
+        const str = raw.isBase64Encoded ? Buffer.from(raw.body, 'base64').toString('utf8') : raw.body;
+        body = typeof str === 'string' ? JSON.parse(str) : {};
+      } catch {
+        body = {};
+      }
+    }
+    const { message, sessionId, quiz, userName, currentPageId } = (body || {}) as {
       message: string;
       sessionId: string;
       quiz?: QuizState;
@@ -181,7 +193,17 @@ app.post('/api/chat', async (req, res) => {
       currentPageId?: string;
     };
 
-    if (!message) { res.status(400).json({ error: 'message is required' }); return; }
+    if (!message) {
+      // Debug: when deploy fails, return what we received to diagnose
+      const debug = process.env.NETLIFY ? {
+        hasBody: !!body,
+        bodyKeys: body ? Object.keys(body) : [],
+        hasEvent: !!(req as { _netlifyEvent?: unknown })._netlifyEvent,
+        path: req.path,
+      } : {};
+      res.status(400).json({ error: 'message is required', ...debug });
+      return;
+    }
 
     let session = sessions.get(sessionId);
     if (!session) {
