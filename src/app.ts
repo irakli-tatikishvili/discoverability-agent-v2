@@ -4,6 +4,7 @@
  */
 import 'dotenv/config';
 import express from 'express';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { invokeAgent } from './agent.js';
@@ -50,6 +51,32 @@ function normalizeSuggestedPages(raw: unknown): string[] {
   }
   return [];
 }
+
+// -- Debug endpoint (remove after fixing Netlify) --
+
+app.get('/api/debug-paths', (_req, res) => {
+  const cwd = process.cwd();
+  const lambdaRoot = process.env.LAMBDA_TASK_ROOT || '(not set)';
+  const paths: Record<string, string> = {
+    cwd,
+    LAMBDA_TASK_ROOT: lambdaRoot,
+    distKnowledge: path.join(cwd, 'dist', 'knowledge'),
+    knowledge: path.join(cwd, 'knowledge'),
+    distKnowledgePages: path.join(cwd, 'dist', 'knowledge', 'pages'),
+    knowledgePages: path.join(cwd, 'knowledge', 'pages'),
+    categoriesYaml: path.join(cwd, 'dist', 'knowledge', 'categories.yaml'),
+  };
+  if (lambdaRoot !== '(not set)') {
+    paths.distKnowledgeLambda = path.join(lambdaRoot, 'dist', 'knowledge', 'pages');
+    paths.knowledgeLambda = path.join(lambdaRoot, 'knowledge', 'pages');
+  }
+  const exists: Record<string, boolean> = {};
+  for (const [k, v] of Object.entries(paths)) {
+    if (k === 'LAMBDA_TASK_ROOT') continue;
+    exists[k] = fs.existsSync(v);
+  }
+  res.json({ paths, exists });
+});
 
 // -- Knowledge Base endpoints --
 

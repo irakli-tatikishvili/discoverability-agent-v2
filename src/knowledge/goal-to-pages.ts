@@ -22,10 +22,26 @@ interface GoalToPagesConfig {
   >;
 }
 
+function resolveGoalToPagesPath(): string {
+  const cwd = process.cwd();
+  const lambdaRoot = process.env.LAMBDA_TASK_ROOT || cwd;
+  const attempts = [
+    path.join(lambdaRoot, 'dist', 'knowledge', 'goal-to-pages.yaml'),
+    path.join(lambdaRoot, 'knowledge', 'goal-to-pages.yaml'),
+    path.join(cwd, 'dist', 'knowledge', 'goal-to-pages.yaml'),
+    path.join(cwd, 'knowledge', 'goal-to-pages.yaml'),
+    path.join(__dirname, '..', '..', 'knowledge', 'goal-to-pages.yaml'),
+    path.join(__dirname, 'goal-to-pages.yaml'),
+  ];
+  for (const p of attempts) {
+    if (fs.existsSync(p)) return p;
+  }
+  return attempts[0];
+}
+
 function loadConfig(): GoalToPagesConfig {
   if (cached) return cached;
-  // Use __dirname so it works from src/ (tsx) and dist/ (node)
-  const filePath = path.join(__dirname, '..', '..', 'knowledge', 'goal-to-pages.yaml');
+  const filePath = resolveGoalToPagesPath();
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
     cached = yaml.parse(content) as GoalToPagesConfig;

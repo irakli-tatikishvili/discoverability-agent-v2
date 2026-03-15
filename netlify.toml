@@ -3,13 +3,21 @@
   publish = "public"
   functions = "netlify/functions"
 
+[build.environment]
+  NODE_VERSION = "18"
+
 [functions]
-  node_bundler = "esbuild"
+  node_bundler = "nft"
   external_node_modules = ["express", "openai", "yaml", "langsmith"]
-  included_files = ["knowledge/**", "dist/**"]
+  included_files = ["./knowledge/**", "./dist/**"]
 
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/server"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

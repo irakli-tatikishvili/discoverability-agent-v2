@@ -228,12 +228,28 @@ let instance: KnowledgeBase | null = null;
 /** Resolve knowledge paths. Tries multiple locations for Netlify (bundled) vs local. */
 function resolveKnowledgePaths(): { pagesDir: string; categoriesFile: string } {
   const cwd = process.cwd();
+  const lambdaRoot = process.env.LAMBDA_TASK_ROOT || cwd;
   const attempts: Array<{ pagesDir: string; categoriesFile: string }> = [];
+  attempts.push(
+    { pagesDir: path.join(lambdaRoot, 'dist', 'knowledge', 'pages'), categoriesFile: path.join(lambdaRoot, 'dist', 'knowledge', 'categories.yaml') },
+  );
+  attempts.push(
+    { pagesDir: path.join(lambdaRoot, 'knowledge', 'pages'), categoriesFile: path.join(lambdaRoot, 'knowledge', 'categories.yaml') },
+  );
   try {
     const dirname = path.dirname(fileURLToPath(import.meta.url));
+    // 1. dist/knowledge (loader runs from dist/knowledge/loader.js - local or unbundled)
     attempts.push(
       { pagesDir: path.join(dirname, 'pages'), categoriesFile: path.join(dirname, 'categories.yaml') },
     );
+    // 2. Bundled on Netlify: handler dir + dist/knowledge (included_files copies dist/)
+    attempts.push(
+      { pagesDir: path.join(dirname, 'dist', 'knowledge', 'pages'), categoriesFile: path.join(dirname, 'dist', 'knowledge', 'categories.yaml') },
+    );
+    attempts.push(
+      { pagesDir: path.join(cwd, 'dist', 'knowledge', 'pages'), categoriesFile: path.join(cwd, 'dist', 'knowledge', 'categories.yaml') },
+    );
+    // 3. process.cwd() + knowledge (original layout)
     attempts.push(
       { pagesDir: path.join(cwd, 'knowledge', 'pages'), categoriesFile: path.join(cwd, 'knowledge', 'categories.yaml') },
     );
@@ -244,19 +260,20 @@ function resolveKnowledgePaths(): { pagesDir: string; categoriesFile: string } {
     attempts.push(
       { pagesDir: path.join(dirname, '..', 'knowledge', 'pages'), categoriesFile: path.join(dirname, '..', 'knowledge', 'categories.yaml') },
     );
-    attempts.push(
-      { pagesDir: path.join(dirname, 'pages'), categoriesFile: path.join(dirname, 'categories.yaml') },
-    );
   } catch {
     // ignore
   }
   for (const { pagesDir, categoriesFile } of attempts) {
     try {
-      if (fs.existsSync(pagesDir) && fs.existsSync(categoriesFile)) return { pagesDir, categoriesFile };
+      if (fs.existsSync(pagesDir) && fs.existsSync(categoriesFile)) {
+        console.log(`Knowledge paths resolved: pages=${pagesDir}, categories=${categoriesFile}`);
+        return { pagesDir, categoriesFile };
+      }
     } catch {
       // continue
     }
   }
+  console.error('Knowledge paths not found. cwd=', cwd, 'LAMBDA_TASK_ROOT=', process.env.LAMBDA_TASK_ROOT);
   return attempts[0];
 }
 

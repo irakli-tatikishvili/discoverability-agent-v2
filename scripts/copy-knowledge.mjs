@@ -23,9 +23,11 @@ if (fs.existsSync(pagesSrc)) {
   }
 }
 
-// Copy categories.yaml
-const catSrc = path.join(src, 'categories.yaml');
-const catDest = path.join(dest, 'categories.yaml');
-if (fs.existsSync(catSrc)) fs.copyFileSync(catSrc, catDest);
+// Copy categories.yaml and goal-to-pages.yaml
+for (const f of ['categories.yaml', 'goal-to-pages.yaml']) {
+  const s = path.join(src, f);
+  const d = path.join(dest, f);
+  if (fs.existsSync(s)) fs.copyFileSync(s, d);
+}
 
 console.log('Copied knowledge files to dist/knowledge');
