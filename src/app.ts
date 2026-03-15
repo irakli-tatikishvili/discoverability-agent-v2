@@ -11,11 +11,18 @@ import { invokeAgent } from './agent.js';
 import { getKnowledgeBase } from './knowledge/loader.js';
 import { getFallbackSuggestedPages } from './knowledge/goal-to-pages.js';
 
-const _appDir = path.dirname(fileURLToPath(import.meta.url));
+// import.meta.url can be undefined when bundled (Netlify) - use try/catch for robustness
+let publicDir: string;
+try {
+  const url = (typeof import.meta !== 'undefined' && import.meta?.url) as string | undefined;
+  publicDir = url ? path.join(path.dirname(fileURLToPath(url)), '..', 'public') : path.join(process.cwd(), 'public');
+} catch {
+  publicDir = path.join(process.cwd(), 'public');
+}
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(_appDir, '..', 'public')));
+app.use(express.static(publicDir));
 
 interface QuizState {
   primaryFocus: string;

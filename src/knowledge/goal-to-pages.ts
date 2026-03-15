@@ -10,7 +10,14 @@ import { fileURLToPath } from 'url';
 import * as yaml from 'yaml';
 import { EMBEDDED_GOAL_TO_PAGES } from './embedded-data.js';
 
-const _goalDir = path.dirname(fileURLToPath(import.meta.url));
+// import.meta.url can be undefined when bundled (Netlify) - use try/catch for robustness
+let _goalDir: string;
+try {
+  const url = (typeof import.meta !== 'undefined' && import.meta?.url) as string | undefined;
+  _goalDir = url ? path.dirname(fileURLToPath(url)) : process.cwd();
+} catch {
+  _goalDir = process.cwd();
+}
 let cached: GoalToPagesConfig | null = null;
 
 interface GoalToPagesConfig {

@@ -248,7 +248,9 @@ function resolveKnowledgePaths(): { pagesDir: string; categoriesFile: string } {
     { pagesDir: path.join(lambdaRoot, 'knowledge', 'pages'), categoriesFile: path.join(lambdaRoot, 'knowledge', 'categories.yaml') },
   );
   try {
-    const dirname = path.dirname(fileURLToPath(import.meta.url));
+    let dirname = cwd;
+    const url = (typeof import.meta !== 'undefined' && import.meta?.url) as string | undefined;
+    if (url) dirname = path.dirname(fileURLToPath(url));
     // 1. dist/knowledge (loader runs from dist/knowledge/loader.js - local or unbundled)
     attempts.push(
       { pagesDir: path.join(dirname, 'pages'), categoriesFile: path.join(dirname, 'categories.yaml') },
