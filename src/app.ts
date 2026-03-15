@@ -21,7 +21,25 @@ try {
 }
 
 const app = express();
-app.use(express.json());
+
+// Netlify/serverless-http: body can be empty for POST. Parse explicitly for chat (path may be
+// /api/chat or /.netlify/functions/server when proxied).
+app.use((req, res, next) => {
+  const isChat = req.method === 'POST' && (req.path === '/api/chat' || req.path?.endsWith('/server'));
+  if (isChat) {
+    return express.raw({ type: 'application/json', limit: '100kb' })(req, res, (err: unknown) => {
+      if (err) return next(err);
+      try {
+        req.body = req.body && Buffer.isBuffer(req.body) ? JSON.parse(req.body.toString()) : {};
+      } catch {
+        req.body = {};
+      }
+      next();
+    });
+  }
+  return express.json()(req, res, next);
+});
+
 app.use(express.static(publicDir));
 
 interface QuizState {
