@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc && node scripts/copy-knowledge.mjs",
+    "build": "node scripts/embed-knowledge.mjs && tsc && node scripts/copy-knowledge.mjs",
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
     "chat": "tsx src/index.ts",

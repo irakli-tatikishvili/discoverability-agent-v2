@@ -1,8 +1,8 @@
 /**
  * Knowledge Base Loader
  *
- * Loads page definitions from YAML files and provides indexed access.
- * Supports searching by keywords, use cases, and categories.
+ * Loads page definitions from YAML files or embedded data (build-time).
+ * Embedded data is used on Netlify where the file system layout differs.
  */
 
 import * as fs from 'fs';
@@ -10,6 +10,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import * as yaml from 'yaml';
 import { PageDefinition, CategoryDefinition, RelatedPage } from './types.js';
+import { EMBEDDED_PAGES, EMBEDDED_CATEGORIES } from './embedded-data.js';
 
 // =============================================================================
 // Knowledge Base Class
@@ -25,6 +26,16 @@ export class KnowledgeBase {
   private useCaseIndex: Map<string, string[]> = new Map(); // normalized use case -> page IDs
 
   constructor() {}
+
+  /**
+   * Load from pre-parsed data (embedded at build time). Used on Netlify.
+   */
+  loadFromData(pages: PageDefinition[], categories: CategoryDefinition[]): void {
+    for (const p of pages) if (p.id) this.pages.set(p.id, p);
+    for (const c of categories) this.categories.set(c.id, c);
+    this.buildIndexes();
+    console.log(`Knowledge base loaded (embedded): ${this.pages.size} pages, ${this.categories.size} categories`);
+  }
 
   /**
    * Load all page definitions from YAML files
@@ -280,8 +291,14 @@ function resolveKnowledgePaths(): { pagesDir: string; categoriesFile: string } {
 export async function getKnowledgeBase(): Promise<KnowledgeBase> {
   if (!instance) {
     instance = new KnowledgeBase();
-    const { pagesDir, categoriesFile } = resolveKnowledgePaths();
-    await instance.load(pagesDir, categoriesFile);
+    const pages = EMBEDDED_PAGES as unknown as PageDefinition[];
+    const categories = EMBEDDED_CATEGORIES as unknown as CategoryDefinition[];
+    if (pages?.length > 0 && categories?.length > 0) {
+      instance.loadFromData(pages, categories);
+    } else {
+      const { pagesDir, categoriesFile } = resolveKnowledgePaths();
+      await instance.load(pagesDir, categoriesFile);
+    }
   }
   return instance;
 }

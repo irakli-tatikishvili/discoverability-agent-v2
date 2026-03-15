@@ -1,13 +1,14 @@
 /**
  * Goal-to-Pages mapping for quiz-aware fallback suggestions.
  * Used when the LLM returns empty suggestedPages.
- * Data-driven: edit knowledge/goal-to-pages.yaml to change mappings.
+ * Uses embedded data when available (Netlify), else loads from YAML.
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import * as yaml from 'yaml';
+import { EMBEDDED_GOAL_TO_PAGES } from './embedded-data.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let cached: GoalToPagesConfig | null = null;
@@ -41,6 +42,10 @@ function resolveGoalToPagesPath(): string {
 
 function loadConfig(): GoalToPagesConfig {
   if (cached) return cached;
+  if (EMBEDDED_GOAL_TO_PAGES && Object.keys(EMBEDDED_GOAL_TO_PAGES).length > 0) {
+    cached = { primaryFocus: EMBEDDED_GOAL_TO_PAGES as GoalToPagesConfig['primaryFocus'] };
+    return cached!;
+  }
   const filePath = resolveGoalToPagesPath();
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
