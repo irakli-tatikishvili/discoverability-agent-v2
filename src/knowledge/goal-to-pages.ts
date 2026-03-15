@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 import * as yaml from 'yaml';
 import { EMBEDDED_GOAL_TO_PAGES } from './embedded-data.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const _goalDir = path.dirname(fileURLToPath(import.meta.url));
 let cached: GoalToPagesConfig | null = null;
 
 interface GoalToPagesConfig {
@@ -31,8 +31,8 @@ function resolveGoalToPagesPath(): string {
     path.join(lambdaRoot, 'knowledge', 'goal-to-pages.yaml'),
     path.join(cwd, 'dist', 'knowledge', 'goal-to-pages.yaml'),
     path.join(cwd, 'knowledge', 'goal-to-pages.yaml'),
-    path.join(__dirname, '..', '..', 'knowledge', 'goal-to-pages.yaml'),
-    path.join(__dirname, 'goal-to-pages.yaml'),
+    path.join(_goalDir, '..', '..', 'knowledge', 'goal-to-pages.yaml'),
+    path.join(_goalDir, 'goal-to-pages.yaml'),
   ];
   for (const p of attempts) {
     if (fs.existsSync(p)) return p;

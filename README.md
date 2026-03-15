@@ -44,7 +44,23 @@ npm start
 npm run dev
 ```
 
-## Netlify deployment
+## Deploy to Railway (recommended – simple, works)
+
+Railway runs your app as a normal Node server – no serverless workarounds.
+
+1. Go to [railway.app](https://railway.app) and sign in (e.g. with GitHub).
+2. **New Project** → **Deploy from GitHub repo** → select `discoverability-agent-v2`.
+3. Railway will auto-detect Node and use `npm run build` + `npm start`.
+4. Add environment variables (Project → Variables):
+   - `OPENAI_API_KEY` (required)
+   - Optional: `LANGCHAIN_TRACING_V2`, `LANGCHAIN_API_KEY`, `LANGCHAIN_PROJECT`
+5. Click **Deploy**. When it finishes, open the generated URL.
+
+Your app will be live at e.g. `https://your-app.up.railway.app`.
+
+---
+
+## Netlify deployment (alternative)
 
 The app is configured for Netlify with:
 

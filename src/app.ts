@@ -11,12 +11,11 @@ import { invokeAgent } from './agent.js';
 import { getKnowledgeBase } from './knowledge/loader.js';
 import { getFallbackSuggestedPages } from './knowledge/goal-to-pages.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const _appDir = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(_appDir, '..', 'public')));
 
 interface QuizState {
   primaryFocus: string;
@@ -52,6 +51,11 @@ function normalizeSuggestedPages(raw: unknown): string[] {
   return [];
 }
 
+// -- Health check (no KB load - helps debug 502s) --
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true, ts: Date.now() });
+});
+
 // -- Debug endpoint (remove after fixing Netlify) --
 
 app.get('/api/debug-paths', (_req, res) => {
@@ -77,6 +81,15 @@ app.get('/api/debug-paths', (_req, res) => {
   }
   res.json({ paths, exists });
 });
+
+// -- Health check (no KB load; use to verify function is reachable) --
+app.get('/api/health', (_req, res) => res.json({ ok: true, ts: Date.now() }));
+
+// -- Health check (lightweight, no KB load) --
+app.get('/api/health', (_req, res) => res.json({ ok: true }));
+
+// -- Health check (lightweight, no KB load) --
+app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 // -- Knowledge Base endpoints --
 
