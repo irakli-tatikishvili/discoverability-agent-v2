@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { invokeAgent } from './agent.js';
+import { EMBEDDED_PAGES } from './knowledge/embedded-data.js';
 import { getKnowledgeBase } from './knowledge/loader.js';
 import { getFallbackSuggestedPages } from './knowledge/goal-to-pages.js';
 
@@ -76,6 +77,86 @@ function normalizeSuggestedPages(raw: unknown): string[] {
     return raw.split(/[,;]/).map((s) => s.trim()).filter(Boolean);
   }
   return [];
+}
+
+/** Page name (normalized) to ID map for extraction fallback. */
+const PAGE_NAME_TO_ID = new Map<string, string>(
+  (EMBEDDED_PAGES as Array<{ id: string; name: string }>).flatMap((p) => {
+    const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    return [[norm(p.name), p.id], [p.name.toLowerCase(), p.id]];
+  }),
+);
+
+/** Extract page IDs from responseText when suggestedPages is empty. Finds **Page Name** and maps to known IDs. */
+function extractSuggestedPagesFromText(text: string): string[] {
+  const ids: string[] = [];
+  const seen = new Set<string>();
+  const matches = text.matchAll(/\*\*([^*]+)\*\*/g);
+  for (const m of matches) {
+    const name = m[1].trim();
+    const norm = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const id = PAGE_NAME_TO_ID.get(norm) ?? PAGE_NAME_TO_ID.get(name.toLowerCase());
+    if (id && !seen.has(id)) {
+      seen.add(id);
+      ids.push(id);
+    }
+  }
+  return ids.slice(0, 3); // max 3
+}
+
+/** Extract follow-up questions from responseText when followUpQuestions is empty. Finds " - Question?" patterns. */
+function extractFollowUpQuestionsFromText(text: string): string[] {
+  const questions: string[] = [];
+  const parts = text.split(/\s+-\s+/);
+  for (let i = 1; i < parts.length; i++) {
+    const q = parts[i].trim();
+    if (q.endsWith('?') && q.length > 10 && q.length < 120) {
+      questions.push(q);
+    }
+  }
+  return questions.slice(0, 3); // max 3
+}
+
+/** Extract JSON from response when parse fails (e.g. markdown-wrapped or extra prose). */
+function extractJsonFromResponse(response: string): object | null {
+  // Try markdown code block: ```json ... ``` or ``` ... ```
+  const codeBlockMatch = response.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (codeBlockMatch) {
+    try {
+      return JSON.parse(codeBlockMatch[1].trim()) as object;
+    } catch {
+      /* fall through */
+    }
+  }
+  // Fallback: find first { and last } and parse substring
+  const firstBrace = response.indexOf('{');
+  const lastBrace = response.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    try {
+      return JSON.parse(response.slice(firstBrace, lastBrace + 1)) as object;
+    } catch {
+      /* fall through */
+    }
+  }
+  return null;
+}
+
+/** Strip suggestion phrasing variants from responseText; the UI renders these from suggestedPages/followUpQuestions. */
+function stripPlainTextSuggestions(text: string): string {
+  let out = text;
+  // "Explore further with these pages: ..."
+  out = out.replace(/\s*Explore further[^.]*\./gis, '').trim();
+  // "You might also ask:" and everything after
+  out = out.replace(/\s*You might also ask:?\s*(?:\n\s*[-•]\s*[^\n]+)*[\s\S]*$/gim, '').trim();
+  // "Suggested next steps include exploring..."
+  out = out.replace(/\s*Suggested next steps include[^.]*\./gis, '').trim();
+  // "You might also want to explore..."
+  out = out.replace(/\s*You might also want to explore[^.]*\./gis, '').trim();
+  // "What specific aspects...? - Q1 - Q2" (question list at end)
+  out = out.replace(/\s*What (?:specific |other )?aspects[^?]*\?[\s\S]*$/gim, '').trim();
+  // Trailing " - Question1? - Question2? - Question3?" pattern
+  out = out.replace(/(\s+- [^?]*\?)+(\s*- [^?]*\?)*\s*$/gim, '').trim();
+  return out.replace(/\n{2,}/g, '\n').trim();
 }
 
 // -- Health check (no KB load - helps debug 502s) --
@@ -284,15 +365,23 @@ app.post('/api/chat', async (req, res) => {
     try {
       parsed = JSON.parse(response);
     } catch {
-      parsed = { responseText: response, suggestedPages: [], quickActions: [], followUpQuestions: [] };
+      const extracted = extractJsonFromResponse(response);
+      parsed = extracted ?? { responseText: response, suggestedPages: [], quickActions: [], followUpQuestions: [] };
     }
     parsed.suggestedPages = normalizeSuggestedPages(parsed.suggestedPages);
     const intentCategory = parsed.intent?.category ?? 'unknown';
     const isNavigation = intentCategory === 'navigation' || intentCategory === 'recommendation' || intentCategory === 'greeting';
-    // Only run fallback when user expects navigation suggestions; respect empty when agent omits on purpose
+    // Extraction fallback: when arrays empty but responseText has the data, extract and populate
+    const responseTextBeforeStrip = parsed.responseText ?? '';
     if (isNavigation && parsed.suggestedPages.length === 0) {
-      parsed.suggestedPages = getFallbackSuggestedPages(session.quiz, session.visitedPages);
-    } else if (isNavigation && session.quiz?.primaryFocus && session.quiz.primaryFocus !== 'analyze-competitors-market') {
+      const extracted = extractSuggestedPagesFromText(responseTextBeforeStrip);
+      parsed.suggestedPages = extracted.length ? extracted : getFallbackSuggestedPages(session.quiz, session.visitedPages);
+    }
+    if (isNavigation && (!parsed.followUpQuestions || parsed.followUpQuestions.length === 0)) {
+      const extracted = extractFollowUpQuestionsFromText(responseTextBeforeStrip);
+      if (extracted.length) parsed.followUpQuestions = extracted;
+    }
+    if (isNavigation && session.quiz?.primaryFocus && session.quiz.primaryFocus !== 'analyze-competitors-market') {
       const generic = new Set(['traffic-engagement', 'website-performance']);
       const onlyGeneric = parsed.suggestedPages.every((id: string) => generic.has(id));
       if (onlyGeneric) {
@@ -308,6 +397,8 @@ app.post('/api/chat', async (req, res) => {
 
     // Strip internal [Suggested pages: ...] from response before sending to client
     parsed.responseText = (parsed.responseText ?? '').replace(/\n?\[Suggested pages:[^\]]*\]\s*/gi, '').trim();
+    // Strip "Explore further" and "You might also ask" from responseText—these must come from suggestedPages/followUpQuestions for clickable UI
+    parsed.responseText = stripPlainTextSuggestions(parsed.responseText);
     res.json(parsed);
   } catch (err) {
     console.error('Chat error:', err);

@@ -10,7 +10,7 @@ import { SYSTEM_PROMPT, buildUserPrompt, type UserContext } from './prompts.js';
 function getClient(): OpenAI {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error('OPENAI_API_KEY is required. Set it in .env');
+    throw new Error('OPENAI_API_KEY is required. Set it in .env (local) or in your host\'s Environment Variables (Netlify/Railway).');
   }
   const client = new OpenAI({ apiKey });
   // Wrap for LangSmith tracing when LANGCHAIN_TRACING_V2=true
@@ -44,6 +44,7 @@ export async function invokeAgent(
   const completion = await client.chat.completions.create({
     model: 'gpt-4o-mini',
     temperature: 0.3,
+    response_format: { type: 'json_object' },
     messages,
   });
 

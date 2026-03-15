@@ -560,7 +560,15 @@ async function appendAgentMessage(data) {
   }
   if (data.quickActions?.length) {
     h += '<div class="quick-actions">';
-    data.quickActions.forEach(a => { h += `<button class="quick-action-btn" onclick="sendMessage('${a.label.replace(/'/g, "\\'")}')">${a.label}</button>`; });
+    data.quickActions.forEach(a => {
+      const label = (typeof a === 'object' && a?.label) ? a.label : String(a);
+      const safeLabel = label.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      if (a?.type === 'navigate' && a?.target) {
+        h += `<button class="quick-action-btn" onclick="navigateFromChat('${String(a.target).replace(/'/g, "\\'")}')">${safeLabel}</button>`;
+      } else {
+        h += `<button class="quick-action-btn" onclick="sendMessage('${safeLabel}')">${safeLabel}</button>`;
+      }
+    });
     h += '</div>';
   }
   if (data.followUpQuestions?.length) {
