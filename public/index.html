@@ -151,7 +151,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .page-chip { display: inline-block; padding: 4px 10px; background: var(--sw-light); color: var(--sw-accent); border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.15s; border: 1px solid transparent; }
 .page-chip:hover { background: var(--sw-accent); color: white; }
 .quick-actions { display: flex; flex-wrap: wrap; gap: 4px; }
-.quick-action-btn { padding: 4px 10px; background: white; border: 1.5px solid var(--sw-accent); color: var(--sw-accent); border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.quick-action-btn { padding: 4px 10px; background: white; border: 1.5px solid var(--sw-accent); color: var(--sw-accent); border-radius: 6px; font-size: 10px; font-weight: 600; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-block; }
 .quick-action-btn:hover { background: var(--sw-accent); color: white; }
 .follow-ups { display: flex; flex-wrap: wrap; gap: 4px; }
 .follow-up-btn { padding: 4px 10px; background: var(--sw-bg); border: 1px solid var(--sw-border); color: var(--sw-text); border-radius: 14px; font-size: 10px; cursor: pointer; transition: all 0.15s; }
@@ -276,6 +276,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 </div>
 
 <script>
+// ── External links for quick actions ──
+const EXTERNAL_LINKS = {
+  'route:sales': 'https://www.similarweb.com/corp/contact-us/',
+  'route:support': 'https://support.similarweb.com/hc/en-us',
+  'subscription-page': 'https://account.similarweb.com/subscription-information',
+};
+
 // ── State ──
 let allPages = [];
 let allCategories = [];
@@ -563,7 +570,11 @@ async function appendAgentMessage(data) {
     data.quickActions.forEach(a => {
       const label = (typeof a === 'object' && a?.label) ? a.label : String(a);
       const safeLabel = label.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-      if (a?.type === 'navigate' && a?.target) {
+      const target = a?.target ? String(a.target) : '';
+      const externalUrl = EXTERNAL_LINKS[target];
+      if (externalUrl) {
+        h += `<a class="quick-action-btn" href="${externalUrl}" target="_blank" rel="noopener noreferrer">${safeLabel}</a>`;
+      } else if (a?.type === 'navigate' && a?.target) {
         h += `<button class="quick-action-btn" onclick="navigateFromChat('${String(a.target).replace(/'/g, "\\'")}')">${safeLabel}</button>`;
       } else {
         h += `<button class="quick-action-btn" onclick="sendMessage('${safeLabel}')">${safeLabel}</button>`;
