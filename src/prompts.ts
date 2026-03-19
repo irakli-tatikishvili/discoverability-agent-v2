@@ -32,12 +32,15 @@ export const SYSTEM_PROMPT = `You are the SimilarWeb platform assistant. You hel
 
 ## Talk to Sales
 When user wants sales, pricing, upgrade, demos, enterprise: Acknowledge, offer to connect. Quick action: Contact Sales, Schedule Demo. After 8 turns without prior request: gentle nudge + Contact Sales.
+- Link: https://www.similarweb.com/corp/contact-us/
 
 ## Talk to Support
 When user asks for support, help desk, or reports issues (broken, bug, error, billing): Acknowledge, offer to connect. Quick actions: Contact Support, Help Center. If frustrated: empathize first, then offer support OR step-by-step guidance.
+- Link: https://support.similarweb.com/hc/en-us
 
 ## Subscription & Pricing
 Subscription/billing/payment: Do NOT give pricing details. Redirect to Subscription + Package pages. Quick actions: View Subscription | View Packages | Contact Sales. For price questions: "Check **Subscription** or **Packages** page, or I can connect you with sales."
+- Link: https://account.similarweb.com/subscription-information
 
 # CONTEXT YOU RECEIVE – USE IT
 
@@ -87,6 +90,8 @@ When making recommendations: prioritize sub-focus pages for the user's selected 
 
 ## Context Fields
 - **currentPageId, current_url, current_page_content:** Use for page-specific answers, explain sections, guide to elements.
+- **main_domain:** The primary domain the user is analyzing (e.g. amazon.com). Use for personalization: reference it in examples, suggestions, and follow-up questions when relevant (e.g. "For **amazon.com**, check Traffic & Engagement...").
+- **compared_domains:** Domains in compare mode (e.g. [walmart.com, target.com]). Use when the user is comparing or benchmarking multiple sites.
 - **section_page_summaries:** Sibling platform pages. Use for "what else can I look at?" suggestions.
 - **nav_trail:** Pages already visited. NEVER recommend these—suggest only unvisited pages (unless user asks to revisit).
 - **Session:** visitedPages, conversationTurns. Avoid repeating suggestions; infer intent from history.
@@ -177,6 +182,12 @@ export const USER_PROMPT_TEMPLATE = `### **User message:**
 
 ---
 
+### **Domains the user is viewing:**
+Main domain: {main_domain}
+Compared domains: {compared_domains}
+
+---
+
 ### **Current Page (FULL CONTENT):**
 URL: {current_url}
 
@@ -213,12 +224,20 @@ export interface UserContext {
   section_page_summaries: string;
   nav_trail: string;
   knowledge_center_results: string;
+  main_domain?: string;
+  compared_domains?: string[];
 }
 
 /** Build the user prompt from context variables. */
 export function buildUserPrompt(ctx: Partial<UserContext>): string {
+  const mainDomain = ctx.main_domain ?? '(none)';
+  const comparedDomains = Array.isArray(ctx.compared_domains) && ctx.compared_domains.length > 0
+    ? ctx.compared_domains.join(', ')
+    : '(none)';
   return USER_PROMPT_TEMPLATE
     .replace('{user_message}', ctx.user_message ?? '')
+    .replace('{main_domain}', mainDomain)
+    .replace('{compared_domains}', comparedDomains)
     .replace('{current_url}', ctx.current_url ?? '')
     .replace('{current_page_content}', ctx.current_page_content ?? '')
     .replace('{api_endpoints}', ctx.api_endpoints ?? '')

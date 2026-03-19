@@ -127,23 +127,32 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .related-chip { padding: 6px 14px; background: var(--sw-card); border: 1px solid var(--sw-border); border-radius: 8px; font-size: 12px; color: var(--sw-text); cursor: pointer; transition: all 0.15s; }
 .related-chip:hover { border-color: var(--sw-accent); color: var(--sw-accent); }
 
-/* ── Chat Widget (new design styling only) ── */
+/* ── Chat Widget (design from reference) ── */
 .chat-launcher {
   position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: linear-gradient(135deg, #3E74FE 0%, #6B95FF 100%);
-  color: white; border: none; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(62,116,254,0.4);
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #fff; border: 1.5px solid #E5E7EB;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.08);
+  color: #3E74FE; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
 }
-.chat-launcher:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(62,116,254,0.5); }
-.chat-launcher svg { width: 24px; height: 24px; }
+.chat-launcher:hover {
+  border-color: #3E74FE;
+  box-shadow: 0 0 0 3px rgba(62,116,254,0.12);
+  transform: scale(1.05);
+}
+.chat-launcher.active {
+  border-color: #3E74FE;
+  background: #F5F8FF;
+  box-shadow: 0 0 0 3px rgba(62,116,254,0.15);
+}
+.chat-launcher svg { width: 22px; height: 22px; }
 .chat-launcher .icon-close { display: none; }
 .chat-launcher.open .icon-chat { display: none; }
 .chat-launcher.open .icon-close { display: block; }
 .chat-widget {
-  position: fixed; bottom: 92px; right: 24px; z-index: 9998;
+  position: fixed; bottom: 88px; right: 24px; z-index: 9998;
   width: 380px; height: 560px; max-height: calc(100vh - 120px);
   background: linear-gradient(180deg, #EDF2FF 0%, #F4F7FF 8%, #fff 18%);
   border-radius: 16px; box-shadow: 0 12px 48px rgba(0,0,0,0.18);
@@ -153,15 +162,55 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .chat-widget.open { display: flex; animation: widgetIn 0.25s ease; }
 @keyframes widgetIn { from { opacity: 0; transform: translateY(12px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .widget-header {
-  background: #fff; color: #1F2937; padding: 16px 20px;
-  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
-  border-bottom: 1px solid #E5E7EB;
+  background: #fff; color: #1F2937; padding: 10px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid #E5E7EB; flex-shrink: 0;
 }
-.widget-header svg { width: 20px; height: 20px; fill: #3E74FE; flex-shrink: 0; }
-.widget-header span { font-size: 15px; font-weight: 600; }
-.widget-body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.widget-header-left { display: flex; align-items: center; gap: 8px; }
+.widget-header-title { font-size: 15px; font-weight: 600; letter-spacing: -0.1px; }
+.widget-header-actions { display: flex; align-items: center; gap: 4px; }
+.widget-header-btn {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: transparent; border-radius: 6px;
+  cursor: pointer; color: #6B7280;
+  transition: background 0.15s, color 0.15s;
+}
+.widget-header-btn:hover { background: #F3F4F6; color: #374151; }
+.widget-header-btn svg { width: 18px; height: 18px; }
+.widget-close-btn {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: transparent; border-radius: 6px;
+  cursor: pointer; color: #9CA3AF;
+  transition: background 0.15s, color 0.15s;
+}
+.widget-close-btn:hover { background: #F3F4F6; color: #6B7280; }
+.widget-close-btn svg { width: 16px; height: 16px; }
+.widget-body { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
 .chat-panel { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.chat-view { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.chat-history-view { display: none; flex-direction: column; flex: 1; overflow: hidden; padding: 12px 20px; }
+.chat-history-view.open { display: flex; }
+.chat-history-view .history-title { font-size: 16px; font-weight: 500; margin-bottom: 16px; color: #1F2937; }
+.chat-history-list { display: flex; flex-direction: column; gap: 2px; }
+.chat-history-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; border-radius: 6px;
+  cursor: pointer; border: none; background: transparent;
+  text-align: left; width: 100%; font-family: inherit;
+  transition: background 0.15s; font-size: 14px; color: #374151;
+}
+.chat-history-item:hover { background: #F9FAFB; }
+.chat-history-dot { width: 5px; height: 5px; border-radius: 50%; background: #2563EB; flex-shrink: 0; }
+.chat-history-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chat-history-empty {
+  padding: 40px 20px; text-align: center; font-size: 14px; color: #9CA3AF;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
 .messages { flex: 1; overflow-y: auto; padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; }
+.messages::-webkit-scrollbar { width: 4px; }
+.messages::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 2px; }
 .msg {
   max-width: 85%; padding: 10px 14px; border-radius: 16px;
   font-size: 14px; line-height: 1.5; animation: fadeUp 0.2s ease;
@@ -174,6 +223,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
   align-self: flex-start; background: rgba(255,255,255,0.8);
   border: 1px solid #E5E7EB; border-left: 3px solid #E5E7EB;
   border-radius: 4px 16px 16px 16px; color: #1F2937;
+  position: relative;
 }
 .msg-section-label { font-size: 10px; font-weight: 600; color: #6B7280; margin-top: 10px; margin-bottom: 4px; letter-spacing: 0.3px; }
 .msg.agent .suggested-pages { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -197,6 +247,65 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
   color: #374151; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.15s;
 }
 .follow-up-btn:hover { background: #DBEAFE; color: #1D4ED8; }
+.msg-feedback {
+  display: flex; gap: 2px; align-items: center;
+  margin-top: 6px; opacity: 0; transition: opacity 0.15s;
+}
+.msg.agent:hover .msg-feedback { opacity: 1; }
+.msg-feedback button {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer; border-radius: 4px;
+  color: #9CA3AF; transition: color 0.15s, background 0.15s;
+}
+.msg-feedback button:hover { color: #6B7280; background: #F3F4F6; }
+.msg-feedback button.thumb-positive { color: #059669; }
+.msg-feedback button.thumb-negative { color: #DC2626; }
+.msg-feedback svg { width: 15px; height: 15px; }
+.feedback-modal {
+  margin: 4px 0 10px; border: 1px solid #E5E7EB; border-radius: 10px;
+  background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  animation: feedbackIn 0.16s ease forwards; overflow: hidden;
+}
+@keyframes feedbackIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.feedback-modal-inner { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+.feedback-modal-title { font-size: 13px; font-weight: 600; color: #1F2937; }
+.feedback-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.feedback-chip {
+  display: inline-flex; align-items: center; height: 28px; padding: 0 12px;
+  border: 1.5px solid #D1D5DB; border-radius: 20px;
+  background: #fff; font-size: 12px; font-weight: 500; color: #374151;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.feedback-chip:hover { border-color: #6B7280; }
+.feedback-chip.active { background: #EFF6FF; border-color: #2563EB; color: #2563EB; }
+.feedback-textarea {
+  width: 100%; min-height: 58px; max-height: 120px;
+  border: 1.5px solid #E5E7EB; border-radius: 8px;
+  padding: 8px 10px; resize: vertical; font-size: 13px;
+  outline: none; background: #FAFAFA; box-sizing: border-box;
+}
+.feedback-textarea:focus { border-color: #2563EB; background: #fff; }
+.feedback-textarea::placeholder { color: #9CA3AF; }
+.feedback-actions { display: flex; justify-content: flex-end; gap: 8px; align-items: center; }
+.feedback-cancel {
+  height: 30px; padding: 0 12px; border: none; background: transparent;
+  border-radius: 6px; font-size: 13px; font-weight: 500; color: #6B7280;
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
+}
+.feedback-cancel:hover { background: #F3F4F6; }
+.feedback-send {
+  height: 30px; padding: 0 14px; border: none; border-radius: 6px;
+  background: #2563EB; color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: background 0.15s, opacity 0.15s;
+}
+.feedback-send:hover:not(:disabled) { background: #1D4ED8; }
+.feedback-send:disabled { background: #E5E7EB; color: #9CA3AF; cursor: default; }
+.feedback-confirm { font-size: 12px; color: #059669; padding: 4px 0 10px; opacity: 0; transition: opacity 0.35s; }
+.feedback-confirm.visible { opacity: 1; }
 .typing-indicator {
   align-self: flex-start; padding: 16px 20px;
   background: rgba(255,255,255,0.8); border: 1px solid #E5E7EB;
@@ -312,24 +421,43 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 </div>
 
 <!-- Chat Launcher -->
-<button class="chat-launcher" id="chatLauncher" onclick="toggleWidget()">
-  <svg class="icon-chat" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+<button class="chat-launcher" id="chatLauncher" onclick="toggleWidget()" aria-label="Open AI Assistant">
+  <svg class="icon-chat" viewBox="0 0 18 18" fill="none"><path d="M9 1.5L10.09 6.41L15 7.5L10.09 8.59L9 13.5L7.91 8.59L3 7.5L7.91 6.41L9 1.5Z" fill="#7975F2"/><path d="M14.5 11L15.17 13.33L17.5 14L15.17 14.67L14.5 17L13.83 14.67L11.5 14L13.83 13.33L14.5 11Z" fill="#7975F2" opacity="0.7"/><path d="M3.5 1L4 2.5L5.5 3L4 3.5L3.5 5L3 3.5L1.5 3L3 2.5L3.5 1Z" fill="#7975F2" opacity="0.5"/></svg>
   <svg class="icon-close" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
 </button>
 
 <!-- Chat Widget -->
 <div class="chat-widget" id="chatWidget">
   <div class="widget-header">
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-    <span>SimilarWeb Assistant</span>
+    <div class="widget-header-left">
+      <button class="widget-header-btn" id="newChatBtn" aria-label="New conversation" title="New conversation" style="display:none;">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M10 4H5a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 2.5a1.5 1.5 0 012.12 2.12L10 11l-3 1 1-3 6.5-6.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#3E74FE"/></svg>
+      <span class="widget-header-title">SimilarWeb Assistant</span>
+    </div>
+    <div class="widget-header-actions">
+      <button class="widget-header-btn" id="historyBtn" aria-label="Recent conversations" title="Recent conversations">
+        <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 6.5V10.5L12.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="widget-close-btn" id="closeChatBtn" aria-label="Close chat">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
   </div>
   <div class="widget-body">
     <div class="chat-panel">
-      <div class="messages" id="messages"></div>
-      <div class="typing-indicator" id="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
-      <div class="chat-input-bar">
-        <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()">
-        <button onclick="sendMessage()" id="sendBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+      <div class="chat-view" id="chatView">
+        <div class="messages" id="messages"></div>
+        <div class="typing-indicator" id="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+        <div class="chat-input-bar">
+          <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()">
+          <button onclick="sendMessage()" id="sendBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+        </div>
+      </div>
+      <div class="chat-history-view" id="chatHistoryView">
+        <div class="history-title">Recent conversations</div>
+        <div class="chat-history-list" id="chatHistoryList"></div>
       </div>
     </div>
   </div>
@@ -351,7 +479,9 @@ let currentPageData = null;
 let quizState = { primaryFocus: '', subFocuses: [] };
 let userName = '';
 let botHasIntroduced = false;
-const sessionId = crypto.randomUUID();
+let sessionId = crypto.randomUUID();
+let recentConversations = JSON.parse(localStorage.getItem('sw_recent_conversations') || '[]');
+const MAX_RECENT = 10;
 
 const SUB_FOCUSES = {
   'analyze-competitors-market': [
@@ -376,6 +506,15 @@ const FOCUS_LABELS = {
   'improve-seo-ppc': 'improving SEO and PPC',
   'genai-visibility': 'improving Gen AI visibility',
 };
+
+const SVG_THUMBUP = '<svg viewBox="0 0 16 16" fill="none"><path d="M5 7.5L7 2c.8 0 2 .5 2 2v2h3.5c.6 0 1 .5.9 1.1l-.9 5c-.1.5-.5.9-1 .9H5V7.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5 7.5H3a1 1 0 00-1 1v4a1 1 0 001 1h2" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+const SVG_THUMBDOWN = '<svg viewBox="0 0 16 16" fill="none"><path d="M11 8.5L9 14c-.8 0-2-.5-2-2v-2H3.5c-.6 0-1-.5-.9-1.1l.9-5c.1-.5.5-.9 1-.9H11V8.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M11 8.5h2a1 1 0 001-1v-4a1 1 0 00-1-1h-2" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+const FEEDBACK_REASONS = [
+  { label: 'Wrong data', value: 'wrong_data' },
+  { label: 'Not what I asked', value: 'not_what_i_asked' },
+  { label: 'Too vague', value: 'too_vague' },
+  { label: 'Outdated info', value: 'outdated_info' },
+];
 
 /** Quiz-aware follow-up questions for intro message. */
 function getIntroFollowUps(primaryFocus) {
@@ -458,6 +597,20 @@ async function init() {
     const chip = e.target.closest('.page-chip');
     if (chip && chip.dataset.pageId) navigateFromChat(chip.dataset.pageId);
   });
+  document.getElementById('closeChatBtn').onclick = closeWidget;
+  document.getElementById('newChatBtn').onclick = startNewConversation;
+  document.getElementById('historyBtn').onclick = toggleHistoryView;
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const histView = document.getElementById('chatHistoryView');
+      if (histView.classList.contains('open')) {
+        histView.classList.remove('open');
+        document.getElementById('chatView').style.display = 'flex';
+      } else {
+        closeWidget();
+      }
+    }
+  });
   await ensurePagesLoaded();
 }
 
@@ -525,35 +678,107 @@ function generateFakeValue(metric) {
   return (Math.random() * 1000 + 10).toFixed(0);
 }
 
+// ── Close chat ──
+function closeWidget() {
+  const w = document.getElementById('chatWidget');
+  const l = document.getElementById('chatLauncher');
+  w.classList.remove('open');
+  l.classList.remove('open');
+  l.classList.remove('active');
+  document.getElementById('chatHistoryView').classList.remove('open');
+  document.getElementById('chatView').style.display = 'flex';
+}
+
+// ── New conversation ──
+function startNewConversation() {
+  const firstMsg = document.querySelector('.msg.user');
+  if (firstMsg) {
+    const title = firstMsg.textContent.trim().slice(0, 50) || 'New conversation';
+    recentConversations.unshift({ id: crypto.randomUUID(), title, ts: Date.now() });
+    recentConversations = recentConversations.slice(0, MAX_RECENT);
+    localStorage.setItem('sw_recent_conversations', JSON.stringify(recentConversations));
+  }
+  sessionId = crypto.randomUUID();
+  document.getElementById('messages').innerHTML = '';
+  botHasIntroduced = false;
+  document.getElementById('newChatBtn').style.display = 'none';
+  document.getElementById('chatHistoryView').classList.remove('open');
+  document.getElementById('chatView').style.display = 'flex';
+  showIntroMessage();
+}
+
+function showIntroMessage() {
+  if (botHasIntroduced) return;
+  botHasIntroduced = true;
+  const displayName = userName || 'there';
+  const intro = `Hi ${displayName}! I'm your SimilarWeb assistant for anything you need. I can help you explore features, understand metrics, find the right pages, or answer questions about the platform. Just ask me anything!`;
+  ensurePagesLoaded().then(async () => {
+    let introPages = ['traffic-engagement', 'website-performance'];
+    if (quizState?.primaryFocus) {
+      try {
+        const params = new URLSearchParams({ primaryFocus: quizState.primaryFocus });
+        if (quizState.subFocuses?.length) params.set('subFocuses', quizState.subFocuses.join(','));
+        const r = await fetch(`/api/suggested-pages-for-quiz?${params}`);
+        if (r.ok) {
+          const data = await r.json();
+          const ids = data.pageIds || data.suggestedPages || [];
+          if (Array.isArray(ids) && ids.length) introPages = ids;
+        }
+      } catch (_) {}
+    }
+    introPages = allPages.length ? introPages.filter(id => allPages.some(p => p.id === id)) : introPages;
+    const followUps = getIntroFollowUps(quizState?.primaryFocus);
+    appendAgentMessage({ responseText: intro, suggestedPages: introPages, quickActions: [], followUpQuestions: followUps });
+  });
+}
+
+// ── History view toggle ──
+function toggleHistoryView() {
+  const histView = document.getElementById('chatHistoryView');
+  const chatView = document.getElementById('chatView');
+  if (histView.classList.toggle('open')) {
+    chatView.style.display = 'none';
+    renderHistoryList();
+  } else {
+    chatView.style.display = 'flex';
+  }
+}
+
+function renderHistoryList() {
+  const list = document.getElementById('chatHistoryList');
+  list.innerHTML = '';
+  if (recentConversations.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'chat-history-empty';
+    empty.innerHTML = '<span>No conversations yet</span>';
+    list.appendChild(empty);
+  } else {
+    recentConversations.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'chat-history-item';
+      const span = document.createElement('span');
+      span.className = 'chat-history-text';
+      span.textContent = c.title;
+      btn.innerHTML = '<span class="chat-history-dot"></span>';
+      btn.appendChild(span);
+      btn.onclick = () => { document.getElementById('chatHistoryView').classList.remove('open'); document.getElementById('chatView').style.display = 'flex'; };
+      list.appendChild(btn);
+    });
+  }
+}
+
 // ── Widget toggle + first-open intro ──
 function toggleWidget() {
   const w = document.getElementById('chatWidget');
   const l = document.getElementById('chatLauncher');
   const isOpen = w.classList.toggle('open');
   l.classList.toggle('open', isOpen);
-  if (isOpen && !botHasIntroduced) {
-    botHasIntroduced = true;
-    const displayName = userName || 'there';
-    const intro = `Hi ${displayName}! I'm your SimilarWeb assistant for anything you need. I can help you explore features, understand metrics, find the right pages, or answer questions about the platform. Just ask me anything!`;
-    ensurePagesLoaded().then(async () => {
-      let introPages = ['traffic-engagement', 'website-performance'];
-      if (quizState?.primaryFocus) {
-        try {
-          const params = new URLSearchParams({ primaryFocus: quizState.primaryFocus });
-          if (quizState.subFocuses?.length) params.set('subFocuses', quizState.subFocuses.join(','));
-          const r = await fetch(`/api/suggested-pages-for-quiz?${params}`);
-          if (r.ok) {
-            const data = await r.json();
-            const ids = data.pageIds || data.suggestedPages || [];
-            if (Array.isArray(ids) && ids.length) introPages = ids;
-          }
-        } catch (_) { /* use fallback */ }
-      }
-      introPages = allPages.length ? introPages.filter(id => allPages.some(p => p.id === id)) : introPages;
-      const followUps = getIntroFollowUps(quizState?.primaryFocus);
-      appendAgentMessage({ responseText: intro, suggestedPages: introPages, quickActions: [], followUpQuestions: followUps });
-    });
+  l.classList.toggle('active', isOpen);
+  if (isOpen) {
+    document.getElementById('chatHistoryView').classList.remove('open');
+    document.getElementById('chatView').style.display = 'flex';
   }
+  if (isOpen) showIntroMessage();
   if (isOpen) document.getElementById('chatInput').focus();
 }
 
@@ -570,7 +795,15 @@ async function sendMessage(overrideText) {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, sessionId, quiz: quizState, userName, currentPageId }),
+      body: JSON.stringify({
+        message: text,
+        sessionId,
+        quiz: quizState,
+        userName,
+        currentPageId,
+        mainDomain: document.getElementById('domainInput')?.value?.trim() || '',
+        comparedDomains: [],
+      }),
     });
     const data = await res.json();
     if (data.error) appendMessage('agent', `Sorry, something went wrong: ${data.error}`);
@@ -584,6 +817,7 @@ function appendMessage(role, text) {
   const d = document.createElement('div');
   d.className = `msg ${role}`; d.textContent = text;
   c.appendChild(d); c.scrollTop = c.scrollHeight;
+  if (role === 'user') document.getElementById('newChatBtn').style.display = 'flex';
 }
 
 async function appendAgentMessage(data) {
@@ -646,7 +880,87 @@ async function appendAgentMessage(data) {
     data.followUpQuestions.forEach(q => { h += `<button class="follow-up-btn" onclick="sendMessage('${q.replace(/'/g, "\\'")}')">${q}</button>`; });
     h += '</div>';
   }
-  d.innerHTML = h; c.appendChild(d); c.scrollTop = c.scrollHeight;
+  h += '<div class="msg-feedback"><button title="Helpful">'+SVG_THUMBUP+'</button><button title="Not helpful">'+SVG_THUMBDOWN+'</button></div>';
+  d.innerHTML = h; c.appendChild(d);
+  const upBtn = d.querySelector('.msg-feedback button:first-child');
+  const downBtn = d.querySelector('.msg-feedback button:last-child');
+  upBtn.onclick = () => { downBtn.classList.remove('thumb-negative'); d.querySelector('.feedback-modal')?.remove(); upBtn.classList.toggle('thumb-positive'); if (upBtn.classList.contains('thumb-positive')) showFeedbackConfirm(d); };
+  downBtn.onclick = () => {
+    upBtn.classList.remove('thumb-positive');
+    const modal = d.querySelector('.feedback-modal');
+    if (modal) { modal.remove(); downBtn.classList.remove('thumb-negative'); }
+    else { downBtn.classList.add('thumb-negative'); openFeedbackModal(d, downBtn); }
+  };
+  c.scrollTop = c.scrollHeight;
+}
+
+function showFeedbackConfirm(wrap) {
+  wrap.querySelector('.feedback-confirm')?.remove();
+  const el = document.createElement('div');
+  el.className = 'feedback-confirm';
+  el.textContent = 'Thanks for your feedback';
+  wrap.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
+  setTimeout(() => { el.classList.remove('visible'); setTimeout(() => el.remove(), 350); }, 2200);
+}
+
+function openFeedbackModal(wrap, thumbDownBtn) {
+  document.querySelectorAll('.feedback-modal').forEach(m => m.remove());
+  document.querySelectorAll('.msg-feedback button.thumb-negative').forEach(b => { if (b !== thumbDownBtn) b.classList.remove('thumb-negative'); });
+  const modal = document.createElement('div');
+  modal.className = 'feedback-modal';
+  let selectedReason = null;
+  const inner = document.createElement('div');
+  inner.className = 'feedback-modal-inner';
+  const title = document.createElement('div');
+  title.className = 'feedback-modal-title';
+  title.textContent = 'What went wrong?';
+  inner.appendChild(title);
+  const chips = document.createElement('div');
+  chips.className = 'feedback-chips';
+  FEEDBACK_REASONS.forEach(r => {
+    const chip = document.createElement('button');
+    chip.className = 'feedback-chip';
+    chip.textContent = r.label;
+    chip.onclick = () => {
+      if (selectedReason === r.value) { selectedReason = null; chip.classList.remove('active'); }
+      else { selectedReason = r.value; chips.querySelectorAll('.feedback-chip').forEach(c => c.classList.remove('active')); chip.classList.add('active'); }
+      sendBtn.disabled = !selectedReason && !ta.value.trim();
+    };
+    chips.appendChild(chip);
+  });
+  inner.appendChild(chips);
+  const ta = document.createElement('textarea');
+  ta.className = 'feedback-textarea';
+  ta.placeholder = 'Want to tell us more? (optional)';
+  ta.rows = 2;
+  ta.oninput = () => { sendBtn.disabled = !selectedReason && !ta.value.trim(); };
+  inner.appendChild(ta);
+  const actions = document.createElement('div');
+  actions.className = 'feedback-actions';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.className = 'feedback-cancel';
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.onclick = () => { modal.remove(); thumbDownBtn.classList.remove('thumb-negative'); };
+  const sendBtn = document.createElement('button');
+  sendBtn.className = 'feedback-send';
+  sendBtn.textContent = 'Send';
+  sendBtn.disabled = true;
+  sendBtn.onclick = () => {
+    console.log('Feedback:', { reason: selectedReason, comment: ta.value.trim() });
+    modal.remove();
+    thumbDownBtn.classList.add('thumb-negative');
+    showFeedbackConfirm(wrap);
+  };
+  actions.appendChild(cancelBtn);
+  actions.appendChild(sendBtn);
+  inner.appendChild(actions);
+  modal.appendChild(inner);
+  wrap.appendChild(modal);
+  ta.focus();
+  document.addEventListener('keydown', function esc(e) {
+    if (e.key === 'Escape') { modal.remove(); thumbDownBtn.classList.remove('thumb-negative'); document.removeEventListener('keydown', esc); }
+  });
 }
 
 function setTyping(on) {

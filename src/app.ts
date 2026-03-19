@@ -266,12 +266,14 @@ app.post('/api/chat', async (req, res) => {
         body = {};
       }
     }
-    const { message, sessionId, quiz, userName, currentPageId } = (body || {}) as {
+    const { message, sessionId, quiz, userName, currentPageId, mainDomain, comparedDomains } = (body || {}) as {
       message: string;
       sessionId: string;
       quiz?: QuizState;
       userName?: string;
       currentPageId?: string;
+      mainDomain?: string;
+      comparedDomains?: string[];
     };
 
     if (!message) {
@@ -308,7 +310,8 @@ app.post('/api/chat', async (req, res) => {
         if (!session.visitedPages.includes(currentPageId)) {
           session.visitedPages.push(currentPageId);
         }
-        currentUrl = `https://pro.similarweb.com${page.path.replace('{domain}', 'example.com')}`;
+        const domain = mainDomain || 'example.com';
+        currentUrl = `https://pro.similarweb.com${page.path.replace('{domain}', domain)}`;
 
         const sections = (page.sections || []).map(s => `- ${s.name}: ${s.description}`).join('\n');
         const metrics = (page.metrics || []).map(m => `- ${m.name}: ${m.description}`).join('\n');
@@ -357,6 +360,8 @@ app.post('/api/chat', async (req, res) => {
         section_page_summaries: sectionPageSummaries,
         nav_trail: navTrail,
         knowledge_center_results: '',
+        main_domain: mainDomain || undefined,
+        compared_domains: Array.isArray(comparedDomains) && comparedDomains.length > 0 ? comparedDomains : undefined,
       },
       historyMessages,
     );
